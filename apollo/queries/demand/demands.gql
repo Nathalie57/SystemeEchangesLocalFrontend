@@ -1,0 +1,9 @@
+query Demands {  
+  demands {
+    id
+    demand_title
+    demand_description
+    demand_date
+    demand_expiration_date
+  }
+}

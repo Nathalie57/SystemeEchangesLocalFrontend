@@ -1,0 +1,9 @@
+query Offers {  
+  offers {
+    id
+    title
+    description
+    date
+    expiration_date
+  }
+}

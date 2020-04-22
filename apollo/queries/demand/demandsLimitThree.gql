@@ -1,0 +1,9 @@
+query DemandsLimitThree {  
+  demands {
+    id
+    title
+    description
+    date
+    expiration_date
+  }
+}
