@@ -46,11 +46,7 @@ export default {
             }
         }
     },
-    computed: {
-        category(){
-            return this.category.find(category => category.title === this.title)
-        },      
-    }
+
 }
 
 </script>  
