@@ -2,7 +2,7 @@ query Category($id:ID!){
   category(id: $id) {
     id
     title
-    demands{
+    demands(sort:"demand_expiration_date:desc"){
       id
       demand_title
       demand_description
@@ -12,7 +12,7 @@ query Category($id:ID!){
       	pseudo
       }
     }
-    offers{
+    offers(sort:"offer_expiration_date:desc"){
       id
       offer_title
       offer_description

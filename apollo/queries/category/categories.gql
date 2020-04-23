@@ -1,5 +1,5 @@
 query Categories {  
-  categories {
+  categories(sort:"title:asc") {
     id
     title
   }
