@@ -1,0 +1,26 @@
+query Category($id:ID!){  
+  category(id: $id) {
+    id
+    title
+    demands{
+      id
+      demand_title
+      demand_description
+      demand_expiration_date
+      member{
+        id
+      	pseudo
+      }
+    }
+    offers{
+      id
+      offer_title
+      offer_description
+      offer_expiration_date
+      member{
+        id
+      	pseudo
+      }
+    }
+  }
+}

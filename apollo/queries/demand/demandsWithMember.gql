@@ -1,17 +1,17 @@
 query DemandsWithMember {  
   demands {
     id
-    title
-    description
-    date
-    expiration_date
+    demand_title
+    demand_description
+    demand_date
+    demand_expiration_date
     member{
       id
       pseudo
     }
     category{
       id
-      category
+      title
     }
   }
 }

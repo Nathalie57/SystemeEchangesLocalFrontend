@@ -14,11 +14,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="demand in demands" v-bind:category="demand.category.category">
-                        <td><router-link tag="a" to="/" exact>{{ demand.title }}</router-link></td>
-                        <td>{{ demand.description }}</td>
-                        <td><router-link tag="a" to="{ name: 'category-category', params: ${ demand.category.category }}" exact>{{ demand.category.category }}</router-link></td>
-                        <td>{{ demand.expiration_date }}</td>
+                    <tr v-for="demand in demands">
+                        <td><router-link tag="a" to="/" exact>{{ demand.demand_title }}</router-link></td>
+                        <td>{{ demand.demand_description }}</td>
+                        <td><router-link :to="{ name:'category-id', params: { id:demand.category.id }}" tag="a">{{ demand.category.title }}</router-link></td>
+                        <td>{{ demand.demand_expiration_date | dateFormat('YYYY.MM.DD') }}</td>
                         <td><router-link tag="a" to="/" exact>{{ demand.member.pseudo }}</router-link></td>
                     </tr>
                 </tbody>

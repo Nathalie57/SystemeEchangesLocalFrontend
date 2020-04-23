@@ -1,0 +1,17 @@
+query OffersWithMember {  
+  offers {
+    id
+    offer_title
+    offer_description
+    offer_date
+    offer_expiration_date
+    member{
+      id
+      pseudo
+    }
+    category{
+      id
+      title
+    }
+  }
+}

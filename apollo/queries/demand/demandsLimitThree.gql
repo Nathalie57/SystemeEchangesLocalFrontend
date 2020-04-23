@@ -1,9 +1,9 @@
 query DemandsLimitThree {  
-  demands {
+  demands(limit:3 sort:"demand_date:desc"){
     id
-    title
-    description
-    date
-    expiration_date
+    demand_title
+    demand_description
+    demand_date
+    demand_expiration_date
   }
 }

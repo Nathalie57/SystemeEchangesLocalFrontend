@@ -2,7 +2,7 @@
     <div>
         <client-only>
         <div class="table-container">
-        <h2>{{ category }}</h2>
+        <h2>Catégorie {{ category.title }}</h2>
             <table>
                 <thead>
                     <tr>
@@ -13,10 +13,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="demand in demands" v-bind:category="demand.category.category">
-                        <td><router-link tag="a" to="/" exact>{{ demand.title }}</router-link></td>
-                        <td>{{ demand.description }}</td>
-                        <td>{{ demand.expiration_date }}</td>
+                    <tr v-for="demand in category.demands">
+                        <td>{{ demand.demand_title }}</td>
+                        <td>{{ demand.demand_description }}</td>
+                        <td>{{ demand.demand_expiration_date }}</td>
                         <td><router-link tag="a" to="/" exact>{{ demand.member.pseudo }}</router-link></td>
                     </tr>
                 </tbody>
@@ -28,27 +28,28 @@
 </template>
 
 <script>  
-import demandsWithMemberQuery from '~/apollo/queries/demand/demandsWithMember'
+import categoryQuery from '~/apollo/queries/category/category'
 
 export default {  
     layout: 'withCategories',
     data() {
         return {
-            demand: Object
+            category: Object
         }
     },
     apollo: {
-        demands: {
+        category: {
             prefetch: true,
-            query: demandsWithMemberQuery
+            query: categoryQuery,
+            variables () {
+                return { id: this.$route.params.id }
+            }
         }
     },
     computed: {
-        filteredList() {
-            return this.demands.filter(demand => {
-            return demandsWithMemberQuery.title.toLowerCase().includes(this.query.toLowerCase())
-            })
-        },
+        category(){
+            return this.category.find(category => category.title === this.title)
+        },      
     }
 }
 
