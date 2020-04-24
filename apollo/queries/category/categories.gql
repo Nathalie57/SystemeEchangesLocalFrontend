@@ -2,5 +2,25 @@ query Categories {
   categories(sort:"title:asc") {
     id
     title
+    demands(sort:"demand_expiration_date:desc"){
+      id
+      demand_title
+      demand_description
+      demand_expiration_date
+      member{
+        id
+      	pseudo
+      }
+    }
+    offers(sort:"offer_expiration_date:desc"){
+      id
+      offer_title
+      offer_description
+      offer_expiration_date
+      member{
+        id
+      	pseudo
+      }
+    }
   }
-}
+  }
