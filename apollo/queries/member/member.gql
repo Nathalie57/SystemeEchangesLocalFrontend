@@ -1,0 +1,28 @@
+query Member($id:ID!){
+  member(id:$id){
+    id
+    pseudo
+    registration_date
+    
+    demands{
+      id
+      demand_title
+      demand_description
+      demand_expiration_date
+      category{
+        id
+        title
+      }
+    }
+    offers{
+      id
+      offer_title
+      offer_description
+      offer_expiration_date
+      category{
+        id
+        title
+      }
+    }
+  }
+}

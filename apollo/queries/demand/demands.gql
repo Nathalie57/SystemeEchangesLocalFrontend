@@ -1,5 +1,5 @@
 query Demands {  
-  demands {
+  demands(sort:"demand_expiration_date:desc") {
     id
     demand_title
     demand_description

@@ -3,7 +3,7 @@
     <div class="left-side-bar-container">
       
       <ul class="left-side-bar">
-        <li v-for="category in categories"><router-link tag="a" to="/" exact>{{ category.title }}</router-link></li>
+        <li v-for="category in categories"><router-link :to="{ name:'category-id', params: { id:category.id }}" tag="a">{{ category.title }}</router-link></li>
         
       </ul>
     </div>
