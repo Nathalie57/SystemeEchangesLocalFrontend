@@ -1,5 +1,5 @@
 query DemandsWithMember {  
-  demands {
+  demands(sort:"demand_expiration_date:asc") {
     id
     demand_title
     demand_description

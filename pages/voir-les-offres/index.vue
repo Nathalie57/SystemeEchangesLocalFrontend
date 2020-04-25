@@ -19,7 +19,7 @@
                         <td>{{ offer.offer_description }}</td>
                         <td><router-link tag="a" :to="{ name: 'category-id', params: {id:offer.category.id}}" exact>{{ offer.category.title }}</router-link></td>
                         <td>{{ offer.offer_expiration_date }}</td>
-                        <td><router-link tag="a" to="/" exact>{{ offer.member.pseudo }}</router-link></td>
+                        <td><router-link tag="a" :to="{ name:'member-id', params: { id:offer.member.id }}" exact>{{ offer.member.pseudo }}</router-link></td>
                     </tr>
                 </tbody>
             </table>

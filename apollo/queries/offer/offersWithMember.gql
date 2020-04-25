@@ -1,5 +1,5 @@
 query OffersWithMember {  
-  offers {
+  offers(sort:"offer_expiration_date:asc") {
     id
     offer_title
     offer_description
