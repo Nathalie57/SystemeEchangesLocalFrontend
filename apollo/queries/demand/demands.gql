@@ -1,9 +1,9 @@
 query Demands {  
-  demands(sort:"demand_expiration_date:desc") {
+  demands(sort:"expirationDate:desc") {
     id
-    demand_title
-    demand_description
-    demand_date
-    demand_expiration_date
+    title
+    description
+    date
+    expirationDate
   }
 }

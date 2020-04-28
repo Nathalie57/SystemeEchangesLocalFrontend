@@ -1,9 +1,9 @@
 query Offers {  
   offers {
     id
-    offer_title
-    offer_description
-    offer_date
-    offer_expiration_date
+    title
+    description
+    date
+    expirationDate
   }
 }

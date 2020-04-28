@@ -1,10 +1,9 @@
 query OffersWithMember {  
-  offers(sort:"offer_expiration_date:asc") {
+  offers(sort:"expirationDate:asc") {
     id
-    offer_title
-    offer_description
-    offer_date
-    offer_expiration_date
+    title
+    description
+    expirationDate
     member{
       id
       pseudo

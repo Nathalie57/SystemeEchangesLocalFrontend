@@ -1,14 +1,24 @@
 query Member($id:ID!){
   member(id:$id){
     id
+    lastname
+    firstname
     pseudo
-    registration_date
+    birthday
+    phonenumber
+    email
+    address
+    town
+    zip
+    password
+    walletAmount
+    registrationDate
     
     demands{
       id
-      demand_title
-      demand_description
-      demand_expiration_date
+      title
+      description
+      expirationDate
       category{
         id
         title
@@ -16,9 +26,9 @@ query Member($id:ID!){
     }
     offers{
       id
-      offer_title
-      offer_description
-      offer_expiration_date
+      title
+      description
+      expirationDate
       category{
         id
         title

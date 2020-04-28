@@ -1,10 +1,10 @@
 query DemandsWithMember {  
-  demands(sort:"demand_expiration_date:asc") {
+  demands(sort:"expirationDate:asc") {
     id
-    demand_title
-    demand_description
-    demand_date
-    demand_expiration_date
+    title
+    description
+    demandDate
+    expirationDate
     member{
       id
       pseudo

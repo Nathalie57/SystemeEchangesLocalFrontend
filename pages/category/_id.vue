@@ -16,9 +16,9 @@
                     </thead>
                     <tbody>
                         <tr v-for="demand in category.demands">
-                            <td>{{ demand.demand_title }}</td>
-                            <td>{{ demand.demand_description }}</td>
-                            <td>{{ demand.demand_expiration_date }}</td>
+                            <td>{{ demand.title }}</td>
+                            <td>{{ demand.description }}</td>
+                            <td>{{ demand.expirationDate }}</td>
                             <td><router-link tag="a" :to="{ name:'member-id', params: { id:demand.member.id }}" exact>{{ demand.member.pseudo }}</router-link></td>
                         </tr>
                     </tbody>
@@ -42,9 +42,9 @@
                 </thead>
                 <tbody>
                     <tr v-for="offer in category.offers">
-                        <td>{{ offer.offer_title }}</td>
-                        <td>{{ offer.offer_description }}</td>
-                        <td>{{ offer.offer_expiration_date }}</td>
+                        <td>{{ offer.title }}</td>
+                        <td>{{ offer.description }}</td>
+                        <td>{{ offer.expirationDate }}</td>
                         <td><router-link tag="a" :to="{ name:'member-id', params: { id:offer.member.id }}" exact>{{ offer.member.pseudo }}</router-link></td>
                     </tr>
                 </tbody>

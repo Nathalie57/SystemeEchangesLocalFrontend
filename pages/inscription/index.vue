@@ -2,15 +2,15 @@
   <div>
     <div class="form-container">
         <h2>Inscrivez-vous au SEL de Mâcon</h2>
-        <form @submit.stop.prevent="handleSubmit">
+        <form method="POST" @submit.prevent="register">
             <p>
                 <label>Nom</label><br/>
-                <input type="text" v-model="memberName" required autofocus>
+                <input type="text" v-model="lastname" required autofocus>
                 <span id="errorName"></span>
             </p>
             <p>
                 <label>Prénom</label><br/>
-                <input type="text" v-model="memberFirstname" required>
+                <input type="text" v-model="firstname" required>
             </p>
             <p>
                 <label>Pseudo</label><br/>
@@ -18,38 +18,39 @@
             </p>
             <p>
                 <label>Date de naissance</label><br/>
-                <input type="date" v-model="memberBirthday" placeholder="14/01/1982" required>
+                <input type="date" v-model="birthday" placeholder="14/01/1982" required>
             </p>    
             <p>
                 <label>Numéro de téléphone</label><br/>
-                <input type="text" v-model="memberPhoneNumber" placeholder="0698765432" onFocus="this.placeholder=''" required>
+                <input type="text" v-model="phonenumber" placeholder="0698765432" onFocus="this.placeholder=''" required>
             </p> 
             <p>
                 <label>Adresse email</label><br/>
-                <input type="text" v-model="memberEmail" placeholder="exemple@domaine.com" onFocus="this.placeholder=''" required>
+                <input type="text" v-model="email" placeholder="exemple@domaine.com" onFocus="this.placeholder=''" required>
             </p>    
             <p>
                 <label>Adresse</label><br/>
-                <input type="text" v-model="memberAddress" placeholder="23, rue des Acacias" onFocus="this.placeholder=''" required>
+                <input type="text" v-model="address" placeholder="23, rue des Acacias" onFocus="this.placeholder=''" required>
             </p>
             <p>
                 <label>Ville</label><br/>
-                <input type="text" v-model="memberTown" placeholder="Mâcon" onFocus="this.placeholder=''" required>
+                <input type="text" v-model="town" placeholder="Mâcon" onFocus="this.placeholder=''" required>
             </p>
             <p>
                 <label>Code postal</label></br>
-                <input type="text" v-model="memberZip" placeholder="71000" onFocus="this.placeholder=''" required>
+                <input type="text" v-model="zip" placeholder="71000" onFocus="this.placeholder=''" required>
+            </p>
+             <p>
+                <label>Pays</label></br>
+                <input type="text" v-model="country" placeholder="France" onFocus="this.placeholder=''" required>
             </p>
             <p>
                 <label>Mot de passe</label><br/>
                 <input type="password" v-model="password"  required><br/>
                 <span id="passwordMessage"></span>
             </p>
-            <p>
-                <label>Confirmation du mot de passe</label><br/>
-                <input type="password" v-model="secondPassword" required> 
-            </p>  
-            <button :disabled="loading" type="submit">Valider</button>
+            
+            <button type="submit">Valider</button>
         </form>  
       </div>
   </div>
@@ -59,76 +60,116 @@
 
 //import securityPassword from '~/plugins/securityPassword'
 
-import { mapMutations } from 'vuex'  
-import strapi from '~/utils/Strapi'
+//import { mapMutations } from 'vuex'  
+import gql from 'graphql-tag'
 
 export default{
+  name: 'Register',
   data() {
     return {
-      memberName: '',
-      memberFirstname: '',
+      lastname: '',
+      firstname: '',
       pseudo: '',
-      memberBirthday: '',
-      memberPhoneNumber: '',
-      memberEmail: '',
-      memberAddress: '',
-      memberTown: '',
-      memberZip: '',
+      birthday: '',
+      phonenumber: '',
+      email: '',
+      address: '',
+      town: '',
+      zip: '',
+      country: '',
       password: '',
-      secondPassword: '',
-      loading: false
+     // secondPassword: '',
+      errors: [],
     }
   },
+
+  methods: {
+    register (event) {
+      this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation (
+              $lastname: String
+              $firstname: String
+              $pseudo: String!
+              $birthday: DateTime
+              $phonenumber: String
+              $email: String
+              $address: String
+              $town: String
+              $zip: String
+              $country:String
+              $password: String
+            ){
+                createMember(input: {
+                    data: {
+                        lastname: $lastname
+                        firstname: $firstname
+                        pseudo: $pseudo
+                        birthday: $birthday
+                        phonenumber: $phonenumber
+                        email: $email
+                        address: $address
+                        town: $town
+                        zip: $zip
+                        country: $country
+                        password: $password
+                    }
+                }) {
+                    member{
+                        id
+                        lastname
+                        firstname
+                        pseudo
+                        birthday
+                        phonenumber
+                        email
+                        address
+                        town
+                        zip
+                        password
+                    }
+                }
+            }
+          `,
+          variables: {
+            lastname: this.lastname,
+            firstname: this.firstname,
+            pseudo: this.pseudo,
+            birthday: this.birthday,
+            phonenumber: this.phonenumber,
+            email: this.email,
+            address: this.address,
+            town: this.town,
+            zip: this.zip,
+            country: this.country,
+            password: this.password
+          }
+        })
+         .then((data) => {
+          event.target.reset()
+        })
+        .catch((e) => {
+          this.errors = e.graphQLErrors
+        })
+    }
+  }
+}
 //  mounted: {
 //    this.$securityPassword()
 //  }
 /*v-on:input="securityPassword"*/ 
-methods: {
-    // Method that will register your users
-    async handleSubmit() {
-      try {
-        this.loading = true
-        const response = await strapi.register(
-          this.memberName,
-          this.memberFirstname,
-          this.pseudo,
-          this.memberBirthday,
-          this.memberPhoneNumber,
-          this.memberEmail,
-          this.memberAddress,
-          this.memberTown,
-          this.memberZip,
-          this.password
-        )
-        this.loading = false
-        // Call your setUser mutation from your auth.js store file
-        this.setMember(response.member)
-      } catch (err) {
-        this.loading = false
-        alert(err.message || 'An error occurred.')
-      }
-    },
-    // Define all your needed mutations, here: auth/setUser
-    ...mapMutations({
-      setMember: 'auth/setMember'
-    })
-  }
-}
-
-
 </script>
 
 <style>
 .form-container { 
-	  width: 600px;
+	  width: 800px;
     top:20px;
-    background: rgb(89, 178, 200, 0.2);
     color:rgb(89, 178, 200);
     position: absolute;
     margin-top:17%;
-    margin-right:30%;
-    margin-left:10%;
+    margin-left:30%;
     padding:5px; 
 	  text-align:left;	
 	}
-</style>
+  </style>

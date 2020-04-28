@@ -1,9 +1,8 @@
 query OffersLimitThree {  
-  offers(limit:3 sort:"offer_date:desc") {
+  offers(limit:3 sort:"expirationDate:desc") {
     id
-    offer_title
-    offer_description
-    offer_date
-    offer_expiration_date
+    title
+    description
+    expirationDate
   }
 }

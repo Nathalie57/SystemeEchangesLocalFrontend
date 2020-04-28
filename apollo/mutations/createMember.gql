@@ -1,0 +1,43 @@
+mutation (
+    $lastname: String 
+    $firstname: String 
+    $pseudo: String!
+    $birthday: DateTime
+    $phonenumber: String
+    $email: String
+    $address: String
+    $town: String
+    $zip: Int
+  	$country:String
+    $password: String
+    ){
+        createMember(input: {
+            data: {
+                lastname: $lastname
+                firstname: $firstname
+                pseudo: $pseudo
+                birthday: $birthday
+                phonenumber: $phonenumber
+                email: $email
+                address: $address
+                town: $town
+                zip: $zip
+                country: $country
+                password: $password
+            }
+        }) {
+            member{
+                id
+                lastname
+                firstname
+                pseudo
+                birthday
+                phonenumber
+                email
+                address
+                town
+                zip
+                password
+            }
+        }
+    }
