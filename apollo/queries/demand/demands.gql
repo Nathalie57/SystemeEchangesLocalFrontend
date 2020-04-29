@@ -3,7 +3,7 @@ query Demands {
     id
     title
     description
-    date
+    demandDate
     expirationDate
   }
 }

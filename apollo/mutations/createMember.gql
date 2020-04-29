@@ -7,7 +7,7 @@ mutation (
     $email: String
     $address: String
     $town: String
-    $zip: Int
+    $zip: String
   	$country:String
     $password: String
     ){

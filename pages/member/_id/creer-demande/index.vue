@@ -2,7 +2,7 @@
  <div class="table-container">
     <div class="form-container">
         <h2>Quelle demande souhaitez-vous déposer ?</h2>
-        <form method="POST" @submit.prevent="">
+        <form method="POST" @submit.prevent="newDemand">
             <p>
                 <label>Titre de la demande (choisissez un titre suffisamment explicite) :</label><br/>
                 <input type="text" v-model="title" required autofocus>
@@ -13,12 +13,15 @@
             </p>  
             <p>
                 <label>Catégorie de la demande</label>                
-                <select  v-model="id">
-                        <option>Jardinage</option>
-                        <option>Cuisine</option>
-                        <option>Musique</option>
-                    
+                <select v-model="category">
+                    <option v-for="category in categories" :value="category.id">
+                    {{ category.title }}
+                    </option>
                 </select>
+            </p>
+            <p>
+                <label>Date d'expiration de la demande (maximum un mois)</label>
+                <input type="date" v-model="expirationDate" required>
             </p>
             <button type="submit">Valider</button>
         </form>  
@@ -29,19 +32,96 @@
 
 <script>  
 import categoriesQuery from '~/apollo/queries/category/categories'
+import memberQuery from '~/apollo/queries/member/member'
+import gql from 'graphql-tag'
 
 export default {  
     layout: 'withCategories',
     data() {
         return {
+           // member: this.$route.params.id,
             category: Object,
+            title: '',
+            description: '',
+            category: [ 
+                {id: '1', title: 'Musique'}, 
+                {id: '2', title: 'Jardinage'},
+                {id: '3', title: 'Informatique'},
+                {id: '4', title: 'Cuisine'},
+                {id: '5', title: 'Vie quotidienne'},
+                {id: '6', title: 'Administratif'},
+                {id: '7', title: 'Activités artistiques'},
+                {id: '8', title: 'Sports-Loisirs'},
+                {id: '9', title: 'Tourisme-Voyage'},
+            ],
+            expirationDate: ''           
         }
     },
+    
     apollo: {
         categories: {
             prefetch: true,
             query: categoriesQuery,
-        }
+        },
+        member: {
+            prefetch: true,
+            query: memberQuery,
+            variables () {
+                return { id: this.$route.params.id }
+            }
+        },
     },
+    methods: {
+        newDemand (event) {
+        this.$apollo
+            .mutate({
+            mutation: gql`
+                mutation (
+                    $title: String
+                    $description: String
+                    $category: ID
+                    $expirationDate: DateTime
+                    $member:ID
+                          
+                ){
+                    createDemand(input: {
+                        data: {
+                            title: $title
+                            description: $description
+                            category: $category
+                            expirationDate: $expirationDate
+                            member: $member
+                        }
+                    }) {
+                        demand {
+                            title
+                            description 
+                            expirationDate 
+                            category {
+                                id
+                                title
+                                }    
+                            member{
+                                id
+                            }                     
+                        }
+                    }
+                }
+            `,
+            variables: {
+                title: this.title,
+                description: this.description,
+                category: this.category,
+                member: this.$route.params.id
+                }
+            })
+            .then((data) => {
+            event.target.reset()
+            })
+            .catch((e) => {
+            this.errors = e.graphQLErrors
+            })
+        }
+    }
 }
 </script>

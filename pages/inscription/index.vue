@@ -46,7 +46,7 @@
             </p>
             <p>
                 <label>Mot de passe</label><br/>
-                <input type="password" v-model="password"  required><br/>
+                <input type="password" v-model="password" required><br/>
                 <span id="passwordMessage"></span>
             </p>
             
@@ -82,7 +82,9 @@ export default{
       errors: [],
     }
   },
-
+ /* mounted () {
+    this.$securityPassword()
+  },*/
   methods: {
     register (event) {
       this.$apollo

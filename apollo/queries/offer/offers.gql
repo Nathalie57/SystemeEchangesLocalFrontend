@@ -3,7 +3,7 @@ query Offers {
     id
     title
     description
-    date
+    offerDate
     expirationDate
   }
 }
