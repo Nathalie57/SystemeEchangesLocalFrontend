@@ -1,0 +1,11 @@
+query Members{
+  members(sort:"pseudo:asc"){
+    id
+    lastname
+    firstname
+    pseudo
+    email
+    phonenumber
+    registrationDate
+  }
+}
