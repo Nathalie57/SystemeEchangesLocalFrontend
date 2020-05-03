@@ -23,10 +23,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="demand in member.demands">
+                            <tr v-for="demand in member.demands" v-if="demand.state==null">
                                 <td>{{ demand.title }}</br>{{ demand.description }}</td>
                                 <td>{{ demand.expirationDate }}</td>
-                                <td><button class="see-more-button">Valider</button></td>
+                                <td><router-link tag="a" :to="{ name:'member-id-validation-demande-title', params: { id:member.id, title:demand.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
                                 <td><button class="see-more-button">Renouveler</button></td>
                                 <td><button class="see-more-button">Supprimer</button></td>
                             </tr>
@@ -72,12 +72,14 @@
 
 <script>  
 import memberQuery from '~/apollo/queries/member/member'
+import demandQuery from '~/apollo/queries/demand/demand'
 
 export default {  
     layout: 'withCategories',
     data() {
         return {
             member: Object,
+            demand: Object,
             login: true
         }
     },
@@ -87,6 +89,13 @@ export default {
             query: memberQuery,
             variables () {
                 return { id: this.$route.params.id }
+            }
+        },
+        demand: {
+            prefetch: true,
+            query: demandQuery,
+            variables () {
+                return { title: this.$route.params.title }
             }
         }
     },
