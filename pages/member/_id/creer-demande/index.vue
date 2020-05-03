@@ -9,6 +9,7 @@
             <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:member.id }}" exact>Liste des membres</router-link></li>
         </ul>
     <div class="form-container">
+        <h2>Bonjour {{ member.pseudo }} !</h2>
         <h2>Quelle demande souhaitez-vous déposer ?</h2>
         <form method="POST" @submit.prevent="newDemand">
             <p>

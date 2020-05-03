@@ -99,7 +99,7 @@ export default{
               $email: String
               $address: String
               $town: String
-              $zip: String
+              $zip: Int
               $country:String
               $password: String
             ){
@@ -143,13 +143,15 @@ export default{
             email: this.email,
             address: this.address,
             town: this.town,
-            zip: this.zip,
+            zip: parseInt(this.zip, 10),
             country: this.country,
             password: this.password
           }
         })
-         .then((data) => {
-          event.target.reset()
+        .then((data) => {
+          event.target.reset(),
+          this.$router.push({path: '/connexion'}),
+          window.alert('Votre inscription a bien été prise en compte !');
         })
         .catch((e) => {
           this.errors = e.graphQLErrors

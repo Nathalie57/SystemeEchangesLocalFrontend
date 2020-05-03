@@ -10,7 +10,8 @@
                     <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:member.id }}" exact>Déposer une offre</router-link></li>
                     <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:member.id }}" exact>Déposer une demande</router-link></li>
                     <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:member.id }}" exact>Liste des membres</router-link></li>
-                </ul>            
+                </ul>      
+                <h2>Bonjour {{ member.pseudo }} !</h2>      
                 <table>
                     <thead>
                         <tr>

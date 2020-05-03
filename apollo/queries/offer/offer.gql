@@ -1,0 +1,17 @@
+query Offer($id:ID!) {  
+  offer(id:$id){
+    id
+    title
+    description
+    offerDate
+    expirationDate
+    member{
+      id
+      pseudo
+    }
+    category{
+      id
+      title
+    }
+  }
+}

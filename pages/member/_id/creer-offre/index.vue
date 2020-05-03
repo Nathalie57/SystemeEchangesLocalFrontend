@@ -8,6 +8,7 @@
         <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:member.id }}" exact>Déposer une demande</router-link></li>
         <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:member.id }}" exact>Liste des membres</router-link></li>
     </ul>
+    <h2>Bonjour {{ member.pseudo }} !</h2>
     <div class="form-container">
         <h2>Quelle offre souhaitez-vous déposer ?</h2>
         <form method="POST" @submit.prevent="newOffer">

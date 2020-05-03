@@ -10,9 +10,9 @@
     </ul>
     <div class="form-container">
         <h2>Détails de l'échange</h2>
-        <form method="POST" @submit.prevent="demandValidation">
-            <p>Titre de la demande : {{ demand.title }}</p>
-            <p>Description de la demande : {{ demand.description }}</p>
+        <form method="POST" @submit.prevent="offerValidation">
+            <p>Titre de l'offre : {{ offer.title }}</p>
+            <p>Description de l'offre : {{ offer.description }}</p>
              <p>
                 <label>Sélectionnez la personne concernée par l'échange</label>                
                 <select v-model="memberExchange">
@@ -36,14 +36,14 @@
 //import categoriesQuery from '~/apollo/queries/category/categories'
 import membersQuery from '~/apollo/queries/member/members'
 import memberQuery from '~/apollo/queries/member/member'
-import demandQuery from '~/apollo/queries/demand/demand'
+import offerQuery from '~/apollo/queries/offer/offer'
 import gql from 'graphql-tag'
 
 export default {  
     layout: 'withCategories',
     data() {
         return {
-            demand: Object,
+            offer: Object,
             title: '',
             description: '',
             category: '',
@@ -63,16 +63,16 @@ export default {
             prefetch: true,
             query: membersQuery,
         },
-        demand: {
+        offer: {
             prefetch: true,
-            query: demandQuery,
+            query: offerQuery,
             variables () {
                 return { id: this.$route.params.title }
             }
         }
     },
     methods: {
-        demandValidation (event) {
+        offerValidation (event) {
         this.$apollo
             .mutate({
             mutation: gql`
@@ -81,7 +81,7 @@ export default {
                 $amount: Int 
                 $memberExchange:ID
                 ){
-                    updateDemand(input: {where: {
+                    updateOffer(input: {where: {
                     id: $id
                     },
                         data: {
@@ -90,7 +90,7 @@ export default {
                             memberExchange:$memberExchange
                             }
                         }) {
-                            demand {
+                            offer {
                                 
                                 amount
                                 state

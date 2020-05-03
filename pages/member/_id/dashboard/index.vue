@@ -10,6 +10,7 @@
                     <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:member.id }}" exact>Déposer une demande</router-link></li>
                     <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:member.id }}" exact>Liste des membres</router-link></li>
                 </ul>
+                <h2>Bonjour {{ member.pseudo }} !</h2>
                 <div v-if="member.demands.length>0">
                     <h3>Vos demandes en cours</h3>
                     <table>
@@ -49,10 +50,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="offer in member.offers">
+                            <tr v-for="offer in member.offers"  v-if="offer.state==null">
                                 <td>{{ offer.title }}</br>{{ offer.description }}</td>
                                 <td>{{ offer.expirationDate }}</td>
-                                <td><button class="see-more-button">Valider</button></td>
+                                <td><router-link tag="a" :to="{ name:'member-id-validation-offre-title', params: { id:member.id, title:offer.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
                                 <td><button class="see-more-button">Renouveler</button></td>
                                 <td><button class="see-more-button">Renouveler</button></td>
                             </tr>
