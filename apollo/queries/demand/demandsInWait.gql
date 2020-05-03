@@ -1,0 +1,17 @@
+query Demands{
+  demands{
+    id
+    title
+    description
+    state
+    member{
+      id
+      pseudo
+    }
+    amount
+    memberExchange{
+      id
+    	pseudo
+    }
+  }
+}

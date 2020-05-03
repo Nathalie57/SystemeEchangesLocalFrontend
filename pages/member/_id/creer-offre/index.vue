@@ -50,17 +50,7 @@ export default {
             category: Object,
             title: '',
             description: '',
-            category: [ 
-                {id: '1', title: 'Musique'}, 
-                {id: '2', title: 'Jardinage'},
-                {id: '3', title: 'Informatique'},
-                {id: '4', title: 'Cuisine'},
-                {id: '5', title: 'Vie quotidienne'},
-                {id: '6', title: 'Administratif'},
-                {id: '7', title: 'Activités artistiques'},
-                {id: '8', title: 'Sports-Loisirs'},
-                {id: '9', title: 'Tourisme-Voyage'},
-            ],
+            category: '',
             expirationDate: ''           
         }
     },
@@ -119,7 +109,8 @@ export default {
                 title: this.title,
                 description: this.description,
                 category: this.category,
-                member: this.$route.params.id
+                member: this.$route.params.id,
+                expirationDate: this.expirationDate
                 }
             })
             .then((data) => {

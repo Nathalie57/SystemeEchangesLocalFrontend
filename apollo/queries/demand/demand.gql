@@ -1,0 +1,17 @@
+query Demand($id:ID!) {  
+  demand(id:$id){
+    id
+    title
+    description
+    demandDate
+    expirationDate
+    member{
+      id
+      pseudo
+    }
+    category{
+      id
+      title
+    }
+  }
+}

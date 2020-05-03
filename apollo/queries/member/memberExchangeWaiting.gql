@@ -35,12 +35,6 @@ query Member($id:ID!){
       title
       description
       expirationDate
-      amount
-      state
-      memberExchange{
-        id
-      	pseudo
-      }
       category{
         id
         title
