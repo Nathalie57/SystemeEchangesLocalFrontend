@@ -5,13 +5,21 @@ query Offer($id:ID!) {
     description
     offerDate
     expirationDate
+    amount
+    state
     member{
       id
       pseudo
+      walletAmount
     }
     category{
       id
       title
+    }
+    memberExchange{
+        id
+        pseudo
+        walletAmount
     }
   }
 }

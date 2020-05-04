@@ -29,7 +29,7 @@
                                 <td>Demande</td>
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
-                                <td>{{ demand.amount }} grains de sel</td>
+                                <td>- {{ demand.amount }} grains de sel</td>
                                 <td>{{ demand.memberExchange.pseudo }}</td>
                                 <td><button class="see-more-button">Annuler</button></td>
                             </tr>
@@ -37,7 +37,7 @@
                                 <td>Offre</td>
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
-                                <td>{{ offer.amount }} grains de sel</td>
+                                <td>+ {{ offer.amount }} grains de sel</td>
                                 <td>{{ offer.memberExchange.pseudo }}</td>
                                 <td><button class="see-more-button">Annuler</button></td>
                             </tr>
@@ -53,8 +53,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Type d'échange</th>
-                                <th>Demande</th>
+                                <th>Echange</th>
                                 <th>Description</th>
                                 <th>Montant</th>
                                 <th>Membre ayant publié l'offre ou la demande</th>
@@ -63,22 +62,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="demand in demands" v-if="demand.memberExchange && demand.memberExchange.id==member.id">
-                                <td>Demande</td>
+                            <tr v-for="demand in demands" v-if="demand.memberExchange && demand.memberExchange.id==member.id && demand.state==0">
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
-                                <td>{{ demand.amount }} grains de sel</td>
+                                <td>+ {{ demand.amount }} grains de sel</td>
                                 <td>{{ demand.member.pseudo }}</td>
-                                <td><button class="see-more-button">Valider</button></td>
+                                <td><router-link tag="a" :to="{ name:'member-id-echanges-validation-demande-title', params: { id:member.id, title:demand.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
                                 <td><button class="see-more-button">Annuler</button></td>
                             </tr>
-                            <tr v-for="offer in offers" v-if="offer.memberExchange && offer.memberExchange.id==member.id">
-                                <td>Offre</td>
+                            <tr v-for="offer in offers" v-if="offer.memberExchange && offer.memberExchange.id==member.id && offer.state==0">
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
-                                <td>{{ offer.amount }} grains de sel</td>
+                                <td>- {{ offer.amount }} grains de sel</td>
                                 <td>{{ offer.member.pseudo }}</td>
-                                <td><button class="see-more-button">Valider</button></td>
+                                <td><router-link tag="a" :to="{ name:'member-id-echanges-validation-offre-title', params: { id:member.id, title:offer.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
                                 <td><button class="see-more-button">Annuler</button></td>
                             </tr>
                         </tbody>
@@ -93,7 +90,6 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Type d'échange</th>
                                 <th>Titre</th>
                                 <th>Description</th>
                                 <th>Montant</th>
@@ -102,18 +98,29 @@
                         </thead>
                         <tbody>
                             <tr v-for="demand in member.demands" v-if="demand.memberExchange && demand.state==1">
-                                <td>Demande</td>
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
-                                <td>{{ demand.amount }} grains de sel</td>
+                                <td>- {{ demand.amount }} grains de sel</td>
                                 <td>{{ demand.memberExchange.pseudo }}</td>
                             </tr>
                             <tr v-for="offer in member.offers" v-if="offer.memberExchange && offer.state==1">
-                                <td>Offre</td>
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
-                                <td>{{ offer.amount }} grains de sel</td>
+                                <td>+ {{ offer.amount }} grains de sel</td>
                                 <td>{{ offer.memberExchange.pseudo }}</td>
+                            </tr>
+                            <tr v-for="demand in demands" v-if="demand.memberExchange && demand.memberExchange.id==member.id && demand.state==1">
+                                <td>{{ demand.title }}</td>
+                                <td>{{ demand.description }}</td>
+                                <td>+ {{ demand.amount }} grains de sel</td>
+                                <td>{{ demand.member.pseudo }}</td>
+                            </tr>
+                            <tr v-for="offer in offers" v-if="offer.memberExchange && offer.memberExchange.id==member.id && offer.state==1">
+                                <td>{{ offer.title }}</td>
+                                <td>{{ offer.description }}</td>
+                                <td>- {{ offer.amount }} grains de sel</td>
+                                <td>{{ offer.member.pseudo }}</td>
+                                
                             </tr>
                         </tbody>
                     </table>
@@ -128,6 +135,8 @@
 
 <script>  
 import memberQuery from '~/apollo/queries/member/member'
+import demandQuery from '~/apollo/queries/demand/demand'
+import offerQuery from '~/apollo/queries/offer/offer'
 import demandsInWaitQuery from '~/apollo/queries/demand/demandsInWait'
 import offersInWaitQuery from '~/apollo/queries/offer/offersInWait'
 
@@ -156,6 +165,20 @@ export default {
             prefetch: true,
             query: offersInWaitQuery,            
         },
+        demand: {
+            prefetch: true,
+            query: demandQuery,
+            variables () {
+                return { id: this.$route.params.id }
+            }
+        },
+        offer: {
+            prefetch: true,
+            query: offerQuery,
+            variables () {
+                return { id: this.$route.params.id }
+            }
+        }
     }
 }
 </script>

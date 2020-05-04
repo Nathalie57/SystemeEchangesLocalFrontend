@@ -26,7 +26,7 @@
             </p> 
             <p>
                 <label>Adresse email</label><br/>
-                <input type="text" v-model="email" placeholder="exemple@domaine.com" onFocus="this.placeholder=''" required>
+                <input type="email" v-model="email" placeholder="exemple@domaine.com" onFocus="this.placeholder=''" required>
             </p>    
             <p>
                 <label>Adresse</label><br/>
@@ -156,7 +156,8 @@ export default{
         .catch((e) => {
           this.errors = e.graphQLErrors
         })
-    }
+    },
+    
   }
 }
 //  mounted: {
