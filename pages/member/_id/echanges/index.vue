@@ -12,11 +12,12 @@
                 </ul>
                 <h2>Bonjour {{ member.pseudo }} !</h2>
                 <h2>Echanges en attente de confirmation</h2>
-                <div v-if="member.demands && member.demands.length>0">                    
+                <div v-if="member.demands && member.demands.length>0 || member.offers && member.offers.length>0">                    
                     <table>
                         <thead>
                             <tr>
-                                <th>Demande</th>
+                                <th>Type d'échange</th>
+                                <th>Titre</th>
                                 <th>Description</th>
                                 <th>Montant</th>
                                 <th>Membre concerné par la demande</th>
@@ -25,31 +26,15 @@
                         </thead>
                         <tbody>
                             <tr v-for="demand in member.demands" v-if="demand.state==0">
+                                <td>Demande</td>
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
                                 <td>{{ demand.amount }} grains de sel</td>
                                 <td>{{ demand.memberExchange.pseudo }}</td>
                                 <td><button class="see-more-button">Annuler</button></td>
                             </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div v-else>
-                    <p>Vous n'avez pas d'échange en cours.</p>
-                </div>
-                <div v-if="member.demands && member.demands.length>0">                    
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Offre</th>
-                                <th>Description</th>
-                                <th>Montant</th>
-                                <th>Membre concerné par l'offre</th>
-                                <th>Annuler l'échange</th>
-                            </tr>
-                        </thead>
-                        <tbody>
                             <tr v-for="offer in member.offers" v-if="offer.state==0">
+                                <td>Offre</td>
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
                                 <td>{{ offer.amount }} grains de sel</td>
@@ -62,25 +47,37 @@
                 <div v-else>
                     <p>Vous n'avez pas d'échange en cours.</p>
                 </div>
+
                 <h2>Echanges à valider</h2>
                 <div v-if="demands && demands.length>0">                    
                     <table>
                         <thead>
                             <tr>
+                                <th>Type d'échange</th>
                                 <th>Demande</th>
                                 <th>Description</th>
                                 <th>Montant</th>
-                                <th>Membre ayant publié la demande</th>
+                                <th>Membre ayant publié l'offre ou la demande</th>
                                 <th>Valider l'échange</th>
                                 <th>Annuler l'échange</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="demand in demands" v-if="demand.memberExchange && demand.memberExchange.id==member.id">
+                                <td>Demande</td>
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
                                 <td>{{ demand.amount }} grains de sel</td>
                                 <td>{{ demand.member.pseudo }}</td>
+                                <td><button class="see-more-button">Valider</button></td>
+                                <td><button class="see-more-button">Annuler</button></td>
+                            </tr>
+                            <tr v-for="offer in offers" v-if="offer.memberExchange && offer.memberExchange.id==member.id">
+                                <td>Offre</td>
+                                <td>{{ offer.title }}</td>
+                                <td>{{ offer.description }}</td>
+                                <td>{{ offer.amount }} grains de sel</td>
+                                <td>{{ offer.member.pseudo }}</td>
                                 <td><button class="see-more-button">Valider</button></td>
                                 <td><button class="see-more-button">Annuler</button></td>
                             </tr>
@@ -90,42 +87,29 @@
                 <div v-else>
                     <p>Vous n'avez pas d'échange en cours.</p>
                 </div>
+
                 <h2>Echanges réalisés</h2>
-                <div v-if="member.demands">                    
+                <div v-if="member.demands || member.offers">                    
                     <table>
                         <thead>
                             <tr>
-                                <th>Demande</th>
+                                <th>Type d'échange</th>
+                                <th>Titre</th>
                                 <th>Description</th>
                                 <th>Montant</th>
-                                <th>Membre concerné par la demande</th>
+                                <th>Membre concerné par l'échange</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="demand in member.demands" v-if="demand.memberExchange && demand.state==1">
+                                <td>Demande</td>
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
                                 <td>{{ demand.amount }} grains de sel</td>
                                 <td>{{ demand.memberExchange.pseudo }}</td>
                             </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div v-else>
-                    <p>Vous n'avez pas encore finalisé d'échange.</p>
-                </div>
-                <div v-if="member.offers">                    
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Offre</th>
-                                <th>Description</th>
-                                <th>Montant</th>
-                                <th>Membre concerné par l'offre</th>
-                            </tr>
-                        </thead>
-                        <tbody>
                             <tr v-for="offer in member.offers" v-if="offer.memberExchange && offer.state==1">
+                                <td>Offre</td>
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
                                 <td>{{ offer.amount }} grains de sel</td>
@@ -145,6 +129,7 @@
 <script>  
 import memberQuery from '~/apollo/queries/member/member'
 import demandsInWaitQuery from '~/apollo/queries/demand/demandsInWait'
+import offersInWaitQuery from '~/apollo/queries/offer/offersInWait'
 
 export default {  
     layout: 'withCategories',
@@ -153,7 +138,6 @@ export default {
             member: Object,
             demands: Object,
             login: true,
-          //  memberExchange:this.member.id
         }
     },
     apollo: {
@@ -166,8 +150,11 @@ export default {
         },
         demands: {
             prefetch: true,
-            query: demandsInWaitQuery,
-            
+            query: demandsInWaitQuery,            
+        },
+        offers: {
+            prefetch: true,
+            query: offersInWaitQuery,            
         },
     }
 }

@@ -1,0 +1,17 @@
+query Offers{
+  offers{
+    id
+    title
+    description
+    state
+    member{
+      id
+      pseudo
+    }
+    amount
+    memberExchange{
+      id
+      pseudo
+    }
+  }
+}
