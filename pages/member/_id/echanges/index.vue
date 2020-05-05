@@ -25,7 +25,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="demand in member.demands" v-if="demand.state==0">
+                            <tr v-for="demand in member.demands" v-if="demand.state==1">
                                 <td>Demande</td>
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
@@ -33,7 +33,7 @@
                                 <td>{{ demand.memberExchange.pseudo }}</td>
                                 <td><button class="see-more-button">Annuler</button></td>
                             </tr>
-                            <tr v-for="offer in member.offers" v-if="offer.state==0">
+                            <tr v-for="offer in member.offers" v-if="offer.state==1">
                                 <td>Offre</td>
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
@@ -62,7 +62,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="demand in demands" v-if="demand.memberExchange && demand.memberExchange.id==member.id && demand.state==0">
+                            <tr v-for="demand in demands" v-if="demand.memberExchange && demand.memberExchange.id==member.id && demand.state==1">
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
                                 <td>+ {{ demand.amount }} grains de sel</td>
@@ -70,7 +70,7 @@
                                 <td><router-link tag="a" :to="{ name:'member-id-echanges-validation-demande-title', params: { id:member.id, title:demand.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
                                 <td><button class="see-more-button">Annuler</button></td>
                             </tr>
-                            <tr v-for="offer in offers" v-if="offer.memberExchange && offer.memberExchange.id==member.id && offer.state==0">
+                            <tr v-for="offer in offers" v-if="offer.memberExchange && offer.memberExchange.id==member.id && offer.state==1">
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
                                 <td>- {{ offer.amount }} grains de sel</td>
@@ -97,25 +97,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="demand in member.demands" v-if="demand.memberExchange && demand.state==1">
+                            <tr v-for="demand in member.demands" v-if="demand.memberExchange && demand.state==2">
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
                                 <td>- {{ demand.amount }} grains de sel</td>
                                 <td>{{ demand.memberExchange.pseudo }}</td>
                             </tr>
-                            <tr v-for="offer in member.offers" v-if="offer.memberExchange && offer.state==1">
+                            <tr v-for="offer in member.offers" v-if="offer.memberExchange && offer.state==2">
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
                                 <td>+ {{ offer.amount }} grains de sel</td>
                                 <td>{{ offer.memberExchange.pseudo }}</td>
                             </tr>
-                            <tr v-for="demand in demands" v-if="demand.memberExchange && demand.memberExchange.id==member.id && demand.state==1">
+                            <tr v-for="demand in demands" v-if="demand.memberExchange && demand.memberExchange.id==member.id && demand.state==2">
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
                                 <td>+ {{ demand.amount }} grains de sel</td>
                                 <td>{{ demand.member.pseudo }}</td>
                             </tr>
-                            <tr v-for="offer in offers" v-if="offer.memberExchange && offer.memberExchange.id==member.id && offer.state==1">
+                            <tr v-for="offer in offers" v-if="offer.memberExchange && offer.memberExchange.id==member.id && offer.state==2">
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
                                 <td>- {{ offer.amount }} grains de sel</td>

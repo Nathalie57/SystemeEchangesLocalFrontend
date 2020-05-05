@@ -2,21 +2,23 @@ query Category($id:ID!){
   category(id: $id) {
     id
     title
-    demands(sort:"expirationDate:desc"){
+    demands(sort:"expirationDate:desc", where:{state:0}){
       id
       title
       description
       expirationDate
+      state
       member{
         id
       	pseudo
       }
     }
-    offers(sort:"expirationDate:desc"){
+    offers(sort:"expirationDate:desc", where:{state:0}){
       id
       title
       description
       expirationDate
+      state
       member{
         id
       	pseudo

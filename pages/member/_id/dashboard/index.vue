@@ -25,13 +25,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="demand in member.demands" v-if="demand.state==null">
+                            <tr v-for="demand in member.demands" v-if="demand.state==0">
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
                                 <td>{{ demand.expirationDate }}</td>
                                 <td><router-link tag="a" :to="{ name:'member-id-validation-demande-title', params: { id:member.id, title:demand.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
-                                <td><button class="see-more-button">Renouveler</button></td>
-                                <td><button class="see-more-button">Supprimer</button></td>
+                                <td><router-link tag="a" :to="{ name:'member-id-renouveler-demande-title', params: { id:member.id, title:demand.id }}" exact><button class="see-more-button">Renouveler</button></router-link></td>
+                                <td><router-link tag="a" :to="{ name:'member-id-supprimer-demande-title', params: { id:member.id, title:demand.id }}" exact><button class="see-more-button">Supprimer</button></router-link></td>
                             </tr>
                         </tbody>
                     </table>
@@ -53,7 +53,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="offer in member.offers"  v-if="offer.state==null">
+                            <tr v-for="offer in member.offers"  v-if="offer.state==0">
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
                                 <td>{{ offer.expirationDate }}</td>
@@ -78,6 +78,7 @@
 <script>  
 import memberQuery from '~/apollo/queries/member/member'
 import demandQuery from '~/apollo/queries/demand/demand'
+import offerQuery from '~/apollo/queries/offer/offer'
 
 export default {  
     layout: 'withCategories',
@@ -99,6 +100,13 @@ export default {
         demand: {
             prefetch: true,
             query: demandQuery,
+            variables () {
+                return { title: this.$route.params.title }
+            }
+        },
+        offer: {
+            prefetch: true,
+            query: offerQuery,
             variables () {
                 return { title: this.$route.params.title }
             }

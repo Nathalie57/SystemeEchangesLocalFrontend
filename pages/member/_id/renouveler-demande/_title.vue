@@ -10,14 +10,14 @@
         </ul>
     <div class="form-container">
         <h2>Bonjour {{ member.pseudo }} !</h2>
-        <h2>Quelle demande souhaitez-vous déposer ?</h2>
-        <form method="POST" @submit.prevent="newDemand">
+        <p>Vous pouvez renouveler votre demande en l'état ou en modifier des éléments. Pensez à modifier la date d'expiration.</p>
+        <form method="POST" @submit.prevent="renewDemand">
             <p>
-                <label>Titre de la demande (choisissez un titre suffisamment explicite) :</label><br/>
-                <input type="text" v-model="title" required autofocus>
+                <label>Titre de la demande :</label><br/>
+                <input type="text" v-model="title" required>
             </p>
             <p>
-                <label>Description de la demande (soyez le plus précis possible) :</label><br/>
+                <label>Description de la demande :</label><br/>
                 <textarea v-model="description" required></textarea>
             </p>  
             <p>
@@ -42,14 +42,15 @@
 <script>  
 import categoriesQuery from '~/apollo/queries/category/categories'
 import memberQuery from '~/apollo/queries/member/member'
+import demandQuery from '~/apollo/queries/demand/demand'
 import gql from 'graphql-tag'
 
 export default {  
     layout: 'withCategories',
     data() {
         return {
-           // member: this.$route.params.id,
             category: Object,
+            demand: Object,
             title: '',
             description: '',
             category: '',
@@ -69,9 +70,16 @@ export default {
                 return { id: this.$route.params.id }
             }
         },
+        demand: {
+            prefetch: true,
+            query: demandQuery,
+            variables () {
+                return { id: this.$route.params.title }
+            }
+        }
     },
     methods: {
-        newDemand (event) {
+        renewDemand (event) {
         this.$apollo
             .mutate({
             mutation: gql`
@@ -90,14 +98,12 @@ export default {
                             category: $category
                             expirationDate: $expirationDate
                             member: $member
-                            state: 0
                         }
                     }) {
                         demand {
                             title
                             description 
                             expirationDate 
-                            state
                             category {
                                 id
                                 title

@@ -27,7 +27,6 @@
                     </div>
                     <div v-else>
                         <h3>Il n'y a pas de demande en cours dans cette catégorie.</h3>
-                        <p>Pour déposer une demande, <router-link tag="a" to="/connexion" exact>connectez-vous</router-link> ou <router-link tag="a" to="/inscription" exact>inscrivez-vous</router-link> au Sel de Mâcon !</p>
                     </div>
 
                     <div v-if="category.offers.length>0">
@@ -53,7 +52,6 @@
                     </div>
                     <div v-else>
                         <h3>Il n'y a pas d'offre en cours dans cette catégorie.</h3>
-                        <p>Pour déposer une offre, <router-link tag="a" to="/connexion" exact>connectez-vous</router-link> ou <router-link tag="a" to="/inscription" exact>inscrivez-vous</router-link> au Sel de Mâcon !</p>
                     </div>                
                 </div>
             </div>

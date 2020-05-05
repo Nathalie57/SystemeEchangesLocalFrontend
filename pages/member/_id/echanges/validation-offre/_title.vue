@@ -73,7 +73,7 @@ export default {
                         id: $id
                         },
                             data: {      
-                                state:1
+                                state:2
                                 }
                             }) {
                                 offer {
@@ -116,7 +116,7 @@ export default {
                 `,
             variables: {
                 id: this.$route.params.id,
-                walletAmount: this.walletAmount + offer.amount
+                walletAmount: this.offer.amount
                 }
             })
             .then((data) => {

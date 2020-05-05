@@ -1,5 +1,5 @@
 query DemandsLimitThree {  
-  demands(limit:3 sort:"expirationDate:desc"){
+  demands(limit:3 sort:"expirationDate:desc", where:{state:0}){
     id
     title
     description

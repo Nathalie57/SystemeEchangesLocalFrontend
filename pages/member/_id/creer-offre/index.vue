@@ -89,12 +89,14 @@ export default {
                             category: $category
                             expirationDate: $expirationDate
                             member: $member
+                            state: 0
                         }
                     }) {
                         offer {
                             title
                             description 
                             expirationDate 
+                            state
                             category {
                                 id
                                 title

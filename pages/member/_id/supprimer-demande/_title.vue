@@ -10,12 +10,12 @@
     </ul>
     <div class="form-container">
         <h2>Détails de l'échange</h2>
-        <form method="POST" @submit.prevent="demandValidation">
+        <form method="POST" @submit.prevent="deleteDemand">
             <p>Titre de la demande : {{ demand.title }}</p>
             <p>Description de la demande : {{ demand.description }}</p>
-            <p v-if="demand.member">Personne concernée par l'échange : {{ demand.memberExchange.pseudo }}</p>
-            <p>Montant de l'échange : + {{ demand.amount }} grains de sel</p>
-            <button type="submit">Valider</button>
+            <p>Catégorie : {{ demand.category.title }}</p>
+            <p>Date d'expiration : {{ demand.expirationDate }}</p>
+            <button type="submit">Supprimer</button>
         </form>  
       </div>
   </div>
@@ -62,23 +62,23 @@ export default {
         }
     },
     methods: {
-        demandValidation (event) {
+        deleteDemand (event) {
         this.$apollo
             .mutate({
             mutation: gql`
-                mutation (
-                    $id: ID!
+                mutation(
+                    $id:ID!
                     ){
-                        updateDemand(input: {where: {
-                        id: $id
-                        },
-                            data: {      
-                                state:2
-                                }
-                            }) {
-                                demand {
-                                    state
-                                }
+                    updateDemand(input: {where: {
+                    id: $id
+                    },
+                        data: {                            
+                            state:3
+                            }
+                        }) {
+                            demand {
+                                state
+                            }
                         }
                     }
                 `,

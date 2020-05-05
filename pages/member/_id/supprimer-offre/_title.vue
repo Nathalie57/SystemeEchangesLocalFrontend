@@ -10,11 +10,11 @@
     </ul>
     <div class="form-container">
         <h2>Détails de l'échange</h2>
-        <form method="POST" @submit.prevent="demandValidation">
-            <p>Titre de la demande : {{ demand.title }}</p>
-            <p>Description de la demande : {{ demand.description }}</p>
-            <p v-if="demand.member">Personne concernée par l'échange : {{ demand.memberExchange.pseudo }}</p>
-            <p>Montant de l'échange : + {{ demand.amount }} grains de sel</p>
+        <form method="POST" @submit.prevent="deleteOffer">
+            <p>Titre de l'offre : {{ offer.title }}</p>
+            <p>Description de l'offre : {{ offer.description }}</p>
+            <p>Catégorie : {{ offer.category.title }}</p>
+            <p>Date d'expiration : {{ offer.expirationDate }}</p>
             <button type="submit">Valider</button>
         </form>  
       </div>
@@ -26,14 +26,14 @@
 //import categoriesQuery from '~/apollo/queries/category/categories'
 import membersQuery from '~/apollo/queries/member/members'
 import memberQuery from '~/apollo/queries/member/member'
-import demandQuery from '~/apollo/queries/demand/demand'
+import offerQuery from '~/apollo/queries/offer/offer'
 import gql from 'graphql-tag'
 
 export default {  
     layout: 'withCategories',
     data() {
         return {
-            demand: Object,
+            offer: Object,
             title: '',
             description: '',
             category: '',
@@ -53,37 +53,38 @@ export default {
             prefetch: true,
             query: membersQuery,
         },
-        demand: {
+        offer: {
             prefetch: true,
-            query: demandQuery,
+            query: offerQuery,
             variables () {
                 return { id: this.$route.params.title }
             }
         }
     },
     methods: {
-        demandValidation (event) {
+        deleteOffer (event) {
         this.$apollo
             .mutate({
             mutation: gql`
                 mutation (
-                    $id: ID!
-                    ){
-                        updateDemand(input: {where: {
-                        id: $id
-                        },
-                            data: {      
-                                state:2
-                                }
-                            }) {
-                                demand {
-                                    state
-                                }
-                        }
+                $id: ID!
+                ){
+                    updateOffer(input: {where: {
+                    id: $id
+                    },
+                        data: {
+                            state:3
+                            }
+                        }) {
+                            offer {
+                                state
+                            }
                     }
-                `,
+                }
+            `,
             variables: {
                 id: this.$route.params.title,
+
                 }
             })
             .then((data) => {

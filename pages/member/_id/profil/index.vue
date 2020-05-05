@@ -12,7 +12,8 @@
 
                 </ul>
                 <h2>Bonjour {{ member.pseudo }} !</h2>
-                <h2>Contenu de votre porte-monnaie : {{member.walletAmount }} grains de sel</h2>
+                <h2 v-if="member.walletAmount!=null">Contenu de votre porte-monnaie : {{member.walletAmount }} grains de sel</h2>
+                <div v-else>Votre porte-monnaie est vide</div>
                 <h2>Votre profil :</h2>
                     <p>Nom : {{ member.lastname }}</p>
                     <p>Prénom : {{ member.firstname }}</p>

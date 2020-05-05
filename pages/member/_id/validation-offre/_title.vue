@@ -86,7 +86,7 @@ export default {
                     },
                         data: {
                             amount:$amount
-                            state:0
+                            state:1
                             memberExchange:$memberExchange
                             }
                         }) {
