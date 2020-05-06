@@ -14,11 +14,11 @@
         <form method="POST" @submit.prevent="renewDemand">
             <p>
                 <label>Titre de la demande :</label><br/>
-                <input type="text" v-model="title" required>
+                <input type="text" v-model="demand.title" required>
             </p>
             <p>
                 <label>Description de la demande :</label><br/>
-                <textarea v-model="description" required></textarea>
+                <textarea v-model="demand.description" required></textarea>
             </p>  
             <p>
                 <label>Catégorie de la demande</label>                

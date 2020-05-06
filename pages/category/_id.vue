@@ -18,7 +18,7 @@
                             <tbody>
                                 <tr v-for="demand in category.demands">
                                     <td>{{ demand.title }}</td>
-                                    <td>{{ demand.description }}</td>
+                                    <td>{{ demand.description | summary }}</td>
                                     <td>{{ demand.expirationDate }}</td>
                                     <td><router-link tag="a" :to="{ name:'member-id', params: { id:demand.member.id }}" exact>{{ demand.member.pseudo }}</router-link></td>
                                 </tr>
@@ -43,7 +43,7 @@
                         <tbody>
                             <tr v-for="offer in category.offers">
                                 <td>{{ offer.title }}</td>
-                                <td>{{ offer.description }}</td>
+                                <td>{{ offer.description | summary }}</td>
                                 <td>{{ offer.expirationDate }}</td>
                                 <td><router-link tag="a" :to="{ name:'member-id', params: { id:offer.member.id }}" exact>{{ offer.member.pseudo }}</router-link></td>
                             </tr>
@@ -73,7 +73,7 @@
                             <tbody>
                                 <tr v-for="demand in category.demands">
                                     <td>{{ demand.title }}</td>
-                                    <td>{{ demand.description }}</td>
+                                    <td>{{ demand.description | summary }}</td>
                                     <td>{{ demand.expirationDate }}</td>
                                 </tr>
                             </tbody>
@@ -97,7 +97,7 @@
                         <tbody>
                             <tr v-for="offer in category.offers">
                                 <td>{{ offer.title }}</td>
-                                <td>{{ offer.description }}</td>
+                                <td>{{ offer.description | summary }}</td>
                                 <td>{{ offer.expirationDate }}</td>
                             </tr>
                         </tbody>

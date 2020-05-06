@@ -1,5 +1,5 @@
 query OffersWithMember {  
-  offers(sort:"expirationDate:asc") {
+  offers(sort:"expirationDate:asc", where:{state:0}) {
     id
     title
     description

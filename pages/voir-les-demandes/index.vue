@@ -3,7 +3,7 @@
         <client-only>
         <div v-if="login">
             <div class="table-container" v-if="demands">
-                <div v-if="demands.length>0">
+                <div>
                     <h2>Les demandes en cours</h2>
                         <table>
                             <thead>
@@ -17,17 +17,14 @@
                             </thead>
                             <tbody>
                                 <tr v-for="demand in demands">
-                                    <td><router-link tag="a" to="/" exact>{{ demand.title }}</router-link></td>
-                                    <td>{{ demand.description }}</td>
+                                    <td><router-link tag="a" :to="{ name:'voir-les-demandes-demande-id', params: { id:demand.id }}" exact>{{ demand.title }}</router-link></td>
+                                    <td>{{ demand.description | summary }}</td>
                                     <td><router-link :to="{ name:'category-id', params: { id:demand.category.id }}" tag="a">{{ demand.category.title }}</router-link></td>
                                     <td>{{ demand.expirationDate }}</td>
                                     <td><router-link tag="a" :to="{ name:'member-id', params: { id:demand.member.id }}" exact>{{ demand.member.pseudo }}</router-link></td>
                                 </tr>
                             </tbody>
                         </table>
-                </div>
-                <div v-else>
-                    <h3>Il n'y a pas de demande en cours.</h3>
                 </div>
             </div>
         </div>
@@ -47,9 +44,9 @@
                             <tbody>
                                 <tr v-for="demand in demands">
                                     <td><router-link tag="a" to="/" exact>{{ demand.title }}</router-link></td>
-                                    <td>{{ demand.description }}</td>
+                                    <td>{{ demand.description | summary }}</td>
                                     <td><router-link :to="{ name:'category-id', params: { id:demand.category.id }}" tag="a">{{ demand.category.title }}</router-link></td>
-                                    <td>{{ demand.expirationDate }}</td>
+                                    <td>{{ demand.expirationDate | dateFormat }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -66,6 +63,7 @@
 
 <script>  
 import demandsWithMemberQuery from '~/apollo/queries/demand/demandsWithMember'
+import demandQuery from '~/apollo/queries/demand/demand'
 
 export default {  
     layout: 'withCategories',
@@ -81,13 +79,13 @@ export default {
             query: demandsWithMemberQuery
         }
     },
-    computed: {
-        filteredList() {
-            return this.demands.filter(demand => {
-                return demandsWithMemberQuery.title.toLowerCase().includes(this.query.toLowerCase())
-            })
-        },
-    }
+    demand: {
+            prefetch: true,
+            query: demandQuery,
+            variables () {
+                return { id: this.$route.params.id }
+            }
+        }
 }
 
 </script>  

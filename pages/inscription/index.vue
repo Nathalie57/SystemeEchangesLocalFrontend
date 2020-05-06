@@ -154,10 +154,16 @@ export default{
           window.alert('Votre inscription a bien été prise en compte !');
         })
         .catch((e) => {
-          this.errors = e.graphQLErrors
+          if (!this.validPhonenumber(this.phonenumber)) {
+          this.errors.push('Entrez un numéro de téléphone valide');
+          this.errors = e.graphQLErrors;
+      }
         })
     },
-    
+    validPhonenumber(phonenumber) {
+      var regex = /[0-9]{10}/;
+      return regex.test(phonenumber);
+    }
   }
 }
 //  mounted: {

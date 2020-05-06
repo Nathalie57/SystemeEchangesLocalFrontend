@@ -13,7 +13,7 @@
         <form method="POST" @submit.prevent="deleteDemand">
             <p>Titre de la demande : {{ demand.title }}</p>
             <p>Description de la demande : {{ demand.description }}</p>
-            <p>Catégorie : {{ demand.category.title }}</p>
+            <p v-if="demand.category">Catégorie : {{ demand.category.title }}</p>
             <p>Date d'expiration : {{ demand.expirationDate }}</p>
             <button type="submit">Supprimer</button>
         </form>  

@@ -29,7 +29,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/securityPassword.js'
+    '~/plugins/securityPassword.js',
+    '~/plugins/filters.js'
   ],
   /*
   ** Nuxt.js dev-modules
