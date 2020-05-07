@@ -10,22 +10,12 @@
     </ul>
     <div class="form-container">
         <h2>Détails de l'échange</h2>
-        <form method="POST" @submit.prevent="demandValidation">
+        <form method="POST" @submit.prevent="cancelDemand">
             <p>Titre de la demande : {{ demand.title }}</p>
             <p>Description de la demande : {{ demand.description }}</p>
-             <p>
-                <label>Sélectionnez la personne concernée par l'échange</label>                
-                <select v-model="memberExchange">
-                    <option v-for="member in members" :value="member.id">
-                    {{ member.pseudo }}
-                    </option>
-                </select>
-            </p>
-            <p>
-                <label>Indiquez le montant en grains de sel de l'échange : </label>
-                <input type="number" v-model="amount">
-            </p>
-            <button type="submit">Valider</button>
+            <p v-if="demand.member">Personne concernée par l'échange : {{ demand.member.pseudo }}</p>
+            <p>Montant de l'échange : + {{ demand.amount }} grains de sel</p>
+            <button type="submit">Annuler</button>
         </form>  
       </div>
   </div>
@@ -72,39 +62,32 @@ export default {
         }
     },
     methods: {
-        demandValidation (event) {
+        cancelDemand (event) {
         this.$apollo
             .mutate({
             mutation: gql`
                 mutation (
-                $id: ID!
-                $amount: Int 
-                $memberExchange:ID!
-                ){
-                    updateDemand(input: {where: {
-                    id: $id
-                    },
-                        data: {
-                            amount:$amount
-                            state:1
-                            memberExchange:$memberExchange
-                            }
-                        }) {
-                            demand {
-                                
-                                amount
-                                state
-                                memberExchange{
-                                    id
-                                    }
-                            }
+                    $id: ID!
+                    ){
+                        updateDemand(input: {where: {
+                        id: $id
+                        },
+                            data: {      
+                                state:0
+                                amount:0
+                                memberExchange:null
+                                }
+                            }) {
+                                demand {
+                                    state
+                                    amount
+                                    memberExchange{id}
+                                }
+                        }
                     }
-                }
-            `,
+                `,
             variables: {
                 id: this.$route.params.title,
-                amount: parseInt(this.amount, 10),
-                memberExchange: this.memberExchange
                 }
             })
             .then((data) => {

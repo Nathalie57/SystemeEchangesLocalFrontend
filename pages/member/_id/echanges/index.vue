@@ -31,7 +31,8 @@
                                 <td>{{ demand.description }}</td>
                                 <td>- {{ demand.amount }} grains de sel</td>
                                 <td>{{ demand.memberExchange.pseudo }}</td>
-                                <td><button class="see-more-button">Annuler</button></td>
+                                <td><router-link tag="a" :to="{ name:'member-id-echanges-annulation-demande-title', params: { id:member.id, title:demand.id }}" exact><button class="see-more-button">Annuler</button></router-link></td>
+
                             </tr>
                             <tr v-for="offer in member.offers" v-if="offer.state==1">
                                 <td>Offre</td>
@@ -39,7 +40,7 @@
                                 <td>{{ offer.description }}</td>
                                 <td>+ {{ offer.amount }} grains de sel</td>
                                 <td>{{ offer.memberExchange.pseudo }}</td>
-                                <td><button class="see-more-button">Annuler</button></td>
+                                <td><router-link tag="a" :to="{ name:'member-id-echanges-annulation-offre-title', params: { id:member.id, title:demand.id }}" exact><button class="see-more-button">Annuler</button></router-link></td>
                             </tr>
                         </tbody>
                     </table>

@@ -15,15 +15,15 @@
             <p>Description de l'offre : {{ offer.description }}</p>
              <p>
                 <label>Sélectionnez la personne concernée par l'échange</label>                
-                <select v-model="memberExchange">
-                    <option v-for="member in members" :value="member.id">
+                <select v-model="offer.memberExchange">
+                    <option v-for="member in members" :value="member.id" required>
                     {{ member.pseudo }}
                     </option>
                 </select>
             </p>
             <p>
                 <label>Indiquez le montant en grains de sel de l'échange : </label>
-                <input type="number" v-model="amount">
+                <input type="number" v-model="offer.amount" required>
             </p>
             <button type="submit">Valider</button>
         </form>  
@@ -79,7 +79,7 @@ export default {
                 mutation (
                 $id: ID!
                 $amount: Int 
-                $memberExchange:ID
+                $memberExchange:ID!
                 ){
                     updateOffer(input: {where: {
                     id: $id

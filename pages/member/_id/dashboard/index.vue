@@ -58,8 +58,8 @@
                                 <td>{{ offer.description }}</td>
                                 <td>{{ offer.expirationDate }}</td>
                                 <td><router-link tag="a" :to="{ name:'member-id-validation-offre-title', params: { id:member.id, title:offer.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
-                                <td><button class="see-more-button">Renouveler</button></td>
-                                <td><button class="see-more-button">Supprimer</button></td>
+                                <td><router-link tag="a" :to="{ name:'member-id-renouveler-offre-title', params: { id:member.id, title:offer.id }}" exact><button class="see-more-button">Renouveler</button></router-link></td>
+                                <td><router-link tag="a" :to="{ name:'member-id-supprimer-offre-title', params: { id:member.id, title:offer.id }}" exact><button class="see-more-button">Supprimer</button></router-link></td>
                             </tr>
                         </tbody>
                     </table>
@@ -96,29 +96,9 @@ export default {
             variables () {
                 return { id: this.$route.params.id }
             }
-        },
-        demand: {
-            prefetch: true,
-            query: demandQuery,
-            variables () {
-                return { title: this.$route.params.title }
-            }
-        },
-        offer: {
-            prefetch: true,
-            query: offerQuery,
-            variables () {
-                return { title: this.$route.params.title }
-            }
-        }
-    },
-    computed:{
-        memberTitle(){
-            return this.member.find(member => member.pseudo === this.pseudo)
         }
     },
 }
-
 </script>  
 
 <style>

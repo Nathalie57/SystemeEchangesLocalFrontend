@@ -13,9 +13,9 @@
         <form method="POST" @submit.prevent="deleteOffer">
             <p>Titre de l'offre : {{ offer.title }}</p>
             <p>Description de l'offre : {{ offer.description }}</p>
-            <p>Catégorie : {{ offer.category.title }}</p>
+            <p v-if="offer.category">Catégorie : {{ offer.category.title }}</p>
             <p>Date d'expiration : {{ offer.expirationDate }}</p>
-            <button type="submit">Valider</button>
+            <button type="submit">Supprimer</button>
         </form>  
       </div>
   </div>

@@ -23,7 +23,7 @@
             <p>
                 <label>Catégorie de la demande</label>                
                 <select v-model="category">
-                    <option v-for="category in categories" :value="category.id">
+                    <option v-for="category in categories" :value="category.id" required>
                     {{ category.title }}
                     </option>
                 </select>
@@ -32,7 +32,7 @@
                 <label>Date d'expiration de la demande (maximum un mois)</label>
                 <input type="date" v-model="expirationDate" required>
             </p>
-            <button type="submit">Valider</button>
+            <button type="submit">Renouveler</button>
         </form>  
       </div>
   </div>
@@ -86,9 +86,9 @@ export default {
                 mutation (
                     $title: String
                     $description: String
-                    $category: ID
+                    $category: ID!
                     $expirationDate: DateTime
-                    $member:ID
+                    $member:ID!
                           
                 ){
                     createDemand(input: {
@@ -116,8 +116,8 @@ export default {
                 }
             `,
             variables: {
-                title: this.title,
-                description: this.description,
+                title: this.demand.title,
+                description: this.demand.description,
                 expirationDate: this.expirationDate,
                 category: this.category,
                 member: this.$route.params.id

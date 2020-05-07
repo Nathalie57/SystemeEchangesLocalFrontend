@@ -13,7 +13,7 @@
         <form method="POST" @submit.prevent="demandValidation">
             <p>Titre de la demande : {{ demand.title }}</p>
             <p>Description de la demande : {{ demand.description }}</p>
-            <p v-if="demand.member">Personne concernée par l'échange : {{ demand.memberExchange.pseudo }}</p>
+            <p v-if="demand.member">Personne concernée par l'échange : {{ demand.member.pseudo }}</p>
             <p>Montant de l'échange : + {{ demand.amount }} grains de sel</p>
             <button type="submit">Valider</button>
         </form>  
