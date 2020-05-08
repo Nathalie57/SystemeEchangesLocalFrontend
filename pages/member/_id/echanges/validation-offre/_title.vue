@@ -86,46 +86,76 @@ export default {
                 id: this.$route.params.title,
                 }
             })
-            .then((data) => {
+            .then((data) => {        
+            this.$apollo
+                .mutate({
+                mutation: gql`
+                    mutation (
+                        $id: ID!
+                        $walletAmount: Int
+                        ){
+                            updateMember(input: {where: {
+                            id: $id
+                            },
+                                data: {
+                                    walletAmount:$walletAmount
+                                    }
+                                }) {
+                                    member {
+                                        walletAmount
+                                    }
+                            }
+                        }
+                    `,
+                variables: {
+                    id: this.$route.params.id,
+                    walletAmount: this.member.walletAmount - this.offer.amount,
+                    }
+                })
+                .then((data) => {
+                    this.$apollo
+                    .mutate({
+                    mutation: gql`
+                        mutation (
+                            $id: ID!
+                            $walletAmount: Int
+                            ){
+                                updateMember(input: {where: {
+                                id: $id
+                                },
+                                    data: {
+                                        walletAmount:$walletAmount
+                                        }
+                                    }) {
+                                        member {
+                                            walletAmount
+                                        }
+                                }
+                            }
+                        `,
+                    variables: {
+                        id: this.offer.member.id,
+                        walletAmount: this.offer.amount + this.offer.member.walletAmount
+                        }
+                    })
+                    .then((data) => {
+                    event.target.reset()
+                    })
+                    .catch((e) => {
+                    this.errors = e.graphQLErrors
+                    })
+                event.target.reset()
+                })
+                .catch((e) => {
+                this.errors = e.graphQLErrors
+                })
             event.target.reset()
             })
             .catch((e) => {
             this.errors = e.graphQLErrors
             })
         },
-        updateWallet(event) {
-        this.$apollo
-            .mutate({
-            mutation: gql`
-                mutation (
-                    $id: ID!
-                    $walletAmount: Int
-                    ){
-                        updateMember(input: {where: {
-                        id: $id
-                        },
-                            data: {
-                                walletAmount:$walletAmount
-                                }
-                            }) {
-                                member {
-                                    walletAmount
-                                }
-                        }
-                    }
-                `,
-            variables: {
-                id: this.$route.params.id,
-                walletAmount: this.offer.amount
-                }
-            })
-            .then((data) => {
-            event.target.reset()
-            })
-            .catch((e) => {
-            this.errors = e.graphQLErrors
-            })
-        }
+        
     }
 }
 </script>

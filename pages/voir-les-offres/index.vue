@@ -17,7 +17,7 @@
                           </thead>
                           <tbody>
                               <tr v-for="offer in offers">
-                                  <td><router-link tag="a" to="/" exact>{{ offer.title }}</router-link></td>
+                                  <td><router-link tag="a" :to="{ name:'voir-les-offres-offre-id', params: { id:offer.id }}" exact>{{ offer.title }}</router-link></td>
                                   <td>{{ offer.description | summary }}</td>
                                   <td><router-link tag="a" :to="{ name: 'category-id', params: {id:offer.category.id}}" exact>{{ offer.category.title }}</router-link></td>
                                   <td>{{ offer.expirationDate }}</td>

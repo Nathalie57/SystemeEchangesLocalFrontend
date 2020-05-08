@@ -62,7 +62,7 @@ export default {
         }
     },
     methods: {
-        demandValidation (event) {
+        demandValidation(event) {
         this.$apollo
             .mutate({
             mutation: gql`
@@ -86,13 +86,76 @@ export default {
                 id: this.$route.params.title,
                 }
             })
-            .then((data) => {
+            .then((data) => {        
+            this.$apollo
+                .mutate({
+                mutation: gql`
+                    mutation (
+                        $id: ID!
+                        $walletAmount: Int
+                        ){
+                            updateMember(input: {where: {
+                            id: $id
+                            },
+                                data: {
+                                    walletAmount:$walletAmount
+                                    }
+                                }) {
+                                    member {
+                                        walletAmount
+                                    }
+                            }
+                        }
+                    `,
+                variables: {
+                    id: this.$route.params.id,
+                    walletAmount: this.member.walletAmount + this.demand.amount,
+                    }
+                })
+                .then((data) => {
+                    this.$apollo
+                    .mutate({
+                    mutation: gql`
+                        mutation (
+                            $id: ID!
+                            $walletAmount: Int
+                            ){
+                                updateMember(input: {where: {
+                                id: $id
+                                },
+                                    data: {
+                                        walletAmount:$walletAmount
+                                        }
+                                    }) {
+                                        member {
+                                            walletAmount
+                                        }
+                                }
+                            }
+                        `,
+                    variables: {
+                        id: this.demand.member.id,
+                        walletAmount: this.demand.member.walletAmount - this.demand.amount
+                        }
+                    })
+                    .then((data) => {
+                    event.target.reset()
+                    })
+                    .catch((e) => {
+                    this.errors = e.graphQLErrors
+                    })
+                event.target.reset()
+                })
+                .catch((e) => {
+                this.errors = e.graphQLErrors
+                })
             event.target.reset()
             })
             .catch((e) => {
             this.errors = e.graphQLErrors
             })
-        }
+        },
+        
     }
 }
 </script>

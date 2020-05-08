@@ -5,8 +5,8 @@
                 <h2>Titre de la demande : {{ demand.title }}</h2>
                 <h3>Description : {{ demand.description }}</h3>
                 <h3>Date d'expiration de la demande : {{demand.expirationDate }}</h3>
-                <h3>Catégorie : {{ demand.category.title }}</h3>
-                <h3>Membre ayant publié la demande : {{ demand.member.pseudo }}</h3>                
+                <h3 v-if="demand.category">Catégorie : <router-link tag="a" :to="{ name:'category-id', params: { id:demand.category.id }}" exact>{{ demand.category.title }}</router-link></h3>
+                <h3 v-if="demand.member">Membre ayant publié la demande : <router-link tag="a" :to="{ name:'member-id', params: { id:demand.member.id }}" exact>{{ demand.member.pseudo }}</router-link></h3>                
             </div>        
         </client-only>
     </div>

@@ -15,7 +15,7 @@
             <p>Description de l'offre : {{ offer.description }}</p>
              <p>
                 <label>Sélectionnez la personne concernée par l'échange</label>                
-                <select v-model="offer.memberExchange">
+                <select v-model="memberExchange">
                     <option v-for="member in members" :value="member.id" required>
                     {{ member.pseudo }}
                     </option>
@@ -23,7 +23,7 @@
             </p>
             <p>
                 <label>Indiquez le montant en grains de sel de l'échange : </label>
-                <input type="number" v-model="offer.amount" required>
+                <input type="number" v-model="amount" required>
             </p>
             <button type="submit">Valider</button>
         </form>  
