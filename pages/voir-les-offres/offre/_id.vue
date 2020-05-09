@@ -4,7 +4,7 @@
             <div class="table-container">
                 <h2>Titre de l'offre : {{ offer.title }}</h2>
                 <h3>Description : {{ offer.description }}</h3>
-                <h3>Date d'expiration de l'offre : {{offer.expirationDate }}</h3>
+                <h3>Date d'expiration de l'offre : {{offer.expirationDate | dateFormat }}</h3>
                 <h3 v-if="offer.category">Catégorie : <router-link tag="a" :to="{ name:'category-id', params: { id:offer.category.id }}" exact>{{ offer.category.title }}</router-link></h3>
                 <h3 v-if="offer.member">Membre ayant publié l'offre : <router-link tag="a" :to="{ name:'member-id', params: { id:offer.member.id }}" exact>{{ offer.member.pseudo }}</router-link></h3>                
             </div>        

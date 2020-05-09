@@ -3,7 +3,7 @@
         <client-only>
         <div v-if="login">
             <div class="table-container" v-if="member.demands && member.offers">
-            <h2>{{ member.pseudo }}, membre depuis le {{ member.registrationDate }}</h2>
+            <h2>{{ member.pseudo }}, membre depuis le {{ member.registrationDate | dateFormat }}</h2>
                 <div v-if="member.demands.length>0">
                     <h3>Ses demandes</h3>
                     <table>
@@ -19,7 +19,7 @@
                             <tr v-for="demand in member.demands">
                                 <td><router-link tag="a" :to="{ name:'voir-les-demandes-demande-id', params: { id:demand.id }}" exact>{{ demand.title }}</router-link></td>
                                 <td>{{ demand.description | summary }}</td>
-                                <td>{{ demand.expirationDate }}</td>
+                                <td>{{ demand.expirationDate | dateFormat }}</td>
                                 <td><router-link tag="a" :to="{ name:'category-id', params: { id:demand.category.id }}" exact>{{ demand.category.title }}</router-link></td>
                             </tr>
                         </tbody>
@@ -43,7 +43,7 @@
                             <tr v-for="offer in member.offers">
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description | summary }}</td>
-                                <td>{{ offer.expirationDate }}</td>
+                                <td>{{ offer.expirationDate | dateFormat }}</td>
                                 <td><router-link tag="a" :to="{ name:'category-id', params: { id:offer.category.id }}" exact>{{ offer.category.title }}</router-link></td>
                             </tr>
                         </tbody>

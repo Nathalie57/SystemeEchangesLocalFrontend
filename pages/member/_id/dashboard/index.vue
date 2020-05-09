@@ -27,8 +27,8 @@
                         <tbody>
                             <tr v-for="demand in member.demands" v-if="demand.state==0">
                                 <td>{{ demand.title }}</td>
-                                <td>{{ demand.description }}</td>
-                                <td>{{ demand.expirationDate }}</td>
+                                <td>{{ demand.description | summary  }}</td>
+                                <td>{{ demand.expirationDate | dateFormat }}</td>
                                 <td><router-link tag="a" :to="{ name:'member-id-validation-demande-title', params: { id:member.id, title:demand.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
                                 <td><router-link tag="a" :to="{ name:'member-id-renouveler-demande-title', params: { id:member.id, title:demand.id }}" exact><button class="see-more-button">Renouveler</button></router-link></td>
                                 <td><router-link tag="a" :to="{ name:'member-id-supprimer-demande-title', params: { id:member.id, title:demand.id }}" exact><button class="see-more-button">Supprimer</button></router-link></td>
@@ -55,8 +55,8 @@
                         <tbody>
                             <tr v-for="offer in member.offers"  v-if="offer.state==0">
                                 <td>{{ offer.title }}</td>
-                                <td>{{ offer.description }}</td>
-                                <td>{{ offer.expirationDate }}</td>
+                                <td>{{ offer.description | summary }}</td>
+                                <td>{{ offer.expirationDate | dateFormat }}</td>
                                 <td><router-link tag="a" :to="{ name:'member-id-validation-offre-title', params: { id:member.id, title:offer.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
                                 <td><router-link tag="a" :to="{ name:'member-id-renouveler-offre-title', params: { id:member.id, title:offer.id }}" exact><button class="see-more-button">Renouveler</button></router-link></td>
                                 <td><router-link tag="a" :to="{ name:'member-id-supprimer-offre-title', params: { id:member.id, title:offer.id }}" exact><button class="see-more-button">Supprimer</button></router-link></td>

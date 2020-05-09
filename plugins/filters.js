@@ -7,7 +7,8 @@ Vue.filter('summary', function (value) {
 
 Vue.filter('dateFormat', function (value){
   if (!value) return ''
-  const date = new Intl.DateTimeFormat("en-GB").format(value);
-  return date;
+  const date = new Date(value)
+  return date.toLocaleDateString()
+ // return date;
 })
 

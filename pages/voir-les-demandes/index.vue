@@ -20,7 +20,7 @@
                                     <td><router-link tag="a" :to="{ name:'voir-les-demandes-demande-id', params: { id:demand.id }}" exact>{{ demand.title }}</router-link></td>
                                     <td>{{ demand.description | summary }}</td>
                                     <td><router-link :to="{ name:'category-id', params: { id:demand.category.id }}" tag="a">{{ demand.category.title }}</router-link></td>
-                                    <td>{{ demand.expirationDate }}</td>
+                                    <td>{{ demand.expirationDate | dateFormat }}</td>
                                     <td><router-link tag="a" :to="{ name:'member-id', params: { id:demand.member.id }}" exact>{{ demand.member.pseudo }}</router-link></td>
                                 </tr>
                             </tbody>
@@ -70,7 +70,8 @@ export default {
     data() {
         return {
             demand: Object,
-            login:true
+            login:true,
+            date: new Date()
         }
     },
     apollo: {
