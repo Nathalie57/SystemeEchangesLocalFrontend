@@ -1,5 +1,6 @@
 <template>
     <div>
+    <div class="table-container">
       <div class="form-container">
         <form @submit.prevent="onSubmit" v-if="!isAuthenticated">
             <p>
@@ -22,10 +23,13 @@
         <div v-if="successfulData">{{successfulData}}</div>
       </div>
     </div>
+    </div>
 </template>
 
 <script>
-    import memberQuery from '~/apollo/queries/member/member'
+  //  import authenticateMemberQuery from '~/apollo/queries/member/authenticateMember'
+    import gql from 'graphql-tag'
+
     export default {
        /* head () {
             return {
@@ -53,7 +57,22 @@
                 const credentials = this.credentials
                 try {
                     const res = await this.$apollo.mutate({
-                        mutation: authenticateUserGql,
+            mutation: gql`
+                query (
+                  $email:String!
+                  $password:String!){
+                    users(
+                        where:{
+                            email: $email, 
+                            password: $password
+                        }
+                    ){     
+                    id
+                    token{token}
+                }
+            }
+            `,
+                        
                         variables: credentials
                     }).then(({data}) => data && data.authenticateUser)
                     await this.$apolloHelpers.onLogin(res.token, undefined, { expires: 7 })

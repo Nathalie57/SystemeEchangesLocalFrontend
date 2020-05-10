@@ -99,7 +99,7 @@ export default{
               $email: String
               $address: String
               $town: String
-              $zip: Int
+              $zip: String
               $country:String
               $password: String
             ){
@@ -143,7 +143,7 @@ export default{
             email: this.email,
             address: this.address,
             town: this.town,
-            zip: parseInt(this.zip, 10),
+            zip: this.zip,
             country: this.country,
             password: this.password
           }
