@@ -1,0 +1,6 @@
+query authenticateUser($email:String!,$password:String!){
+   users(where:{email: $email, password: $password}) {    
+    id
+    token{token}
+    }
+}
