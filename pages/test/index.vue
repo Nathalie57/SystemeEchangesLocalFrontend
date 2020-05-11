@@ -27,14 +27,13 @@
 <script>
 import axios from 'axios';
 
-// Request API.
-// Add your own code here to customize or restrict how the public can register new users.
 export default { 
     data() {
     return {
       username: '',
       email:'',
       password:'',
+      jwt:'',
       errors: []
     }
   },
@@ -47,9 +46,20 @@ methods: {
             password: this.password,
       })
         .then((Response) => {
-            console.log('Well done!');
-            console.log('User profile', response.data.user);
-            console.log('User token', response.data.jwt);
+            axios.post('http://localhost:1337/tokens',{
+                token: this.jwt
+            })
+            
+           .then(response => {
+                // Handle success.
+                console.log('Well done!');
+                console.log('User profile', response.data.user);
+                console.log('User token', response.data.jwt);
+            })
+            .catch(error => {
+                // Handle error.
+                console.log('An error occurred:', error);
+            });
         })
         .catch((err) => {
           this.errors.push(err)
@@ -57,24 +67,4 @@ methods: {
     }
   }
 }
-    /*asyncData ({ params }) {
-        var = dataUser = new dataForm();
-        axios.post('http://localhost:1337/auth/local/register', {
-            username: $username,
-            email: $email,
-            password: $password,
-        });
-
-        .then(response => {
-            // Handle success.
-            console.log('Well done!');
-            console.log('User profile', response.data.user);
-            console.log('User token', response.data.jwt);
-        })
-        .catch(error => {
-            // Handle error.
-            console.log('An error occurred:', error);
-        });
-    }
-    }*/
 </script>

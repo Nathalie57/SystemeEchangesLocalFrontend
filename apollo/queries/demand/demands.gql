@@ -7,13 +7,13 @@ query Demands {
     expirationDate
     amount
     state
-    member{
+    user{
       id
-      pseudo
+      username
     }
-    memberExchange{
+    userExchange{
       id
-      pseudo
+      username
     }
   }
 }

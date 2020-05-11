@@ -7,18 +7,18 @@ query Offer($id:ID!) {
     expirationDate
     amount
     state
-    member{
+    user{
       id
-      pseudo
+      username
       walletAmount
     }
     category{
       id
       title
     }
-    memberExchange{
+    userExchange{
         id
-        pseudo
+        username
         walletAmount
     }
   }

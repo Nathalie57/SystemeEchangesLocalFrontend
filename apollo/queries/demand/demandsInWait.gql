@@ -4,14 +4,14 @@ query Demands{
     title
     description
     state
-    member{
+    user{
       id
-      pseudo
+      username
     }
     amount
-    memberExchange{
+    userExchange{
       id
-      pseudo
+      username
     }
   }
 }

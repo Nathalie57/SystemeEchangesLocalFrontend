@@ -21,7 +21,7 @@
                                     <td>{{ demand.description | summary }}</td>
                                     <td><router-link :to="{ name:'category-id', params: { id:demand.category.id }}" tag="a">{{ demand.category.title }}</router-link></td>
                                     <td>{{ demand.expirationDate | dateFormat }}</td>
-                                    <td><router-link tag="a" :to="{ name:'member-id', params: { id:demand.member.id }}" exact>{{ demand.member.pseudo }}</router-link></td>
+                                    <td><router-link tag="a" :to="{ name:'member-id', params: { id:demand.user.id }}" exact>{{ demand.user.username }}</router-link></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -62,7 +62,7 @@
 </template>
 
 <script>  
-import demandsWithMemberQuery from '~/apollo/queries/demand/demandsWithMember'
+import demandsWithUserQuery from '~/apollo/queries/demand/demandsWithUser'
 import demandQuery from '~/apollo/queries/demand/demand'
 
 export default {  
@@ -77,7 +77,7 @@ export default {
     apollo: {
         demands: {
             prefetch: true,
-            query: demandsWithMemberQuery
+            query: demandsWithUserQuery
         }
     },
     demand: {

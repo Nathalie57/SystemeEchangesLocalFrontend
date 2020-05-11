@@ -1,19 +1,19 @@
 <template>
  <div class="table-container">
     <ul class="member-menu">
-        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:member.id }}" exact>Mon profil</router-link></li>
-        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:member.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
-        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:member.id }}" exact>Gérer mes échanges</router-link></li>
-        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:member.id }}" exact>Déposer une offre</router-link></li>
-        <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:member.id }}" exact>Déposer une demande</router-link></li>
-        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:member.id }}" exact>Liste des membres</router-link></li>
+        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:user.id }}" exact>Mon profil</router-link></li>
+        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:user.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
+        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:user.id }}" exact>Gérer mes échanges</router-link></li>
+        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:user.id }}" exact>Déposer une offre</router-link></li>
+        <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:user.id }}" exact>Déposer une demande</router-link></li>
+        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:user.id }}" exact>Liste des membres</router-link></li>
     </ul>
     <div class="form-container">
         <h2>Détails de l'échange</h2>
         <form method="POST" @submit.prevent="cancelDemand">
             <p>Titre de la demande : {{ demand.title }}</p>
             <p>Description de la demande : {{ demand.description }}</p>
-            <p v-if="demand.member">Personne concernée par l'échange : {{ demand.member.pseudo }}</p>
+            <p v-if="demand.user">Personne concernée par l'échange : {{ demand.user.username }}</p>
             <p>Montant de l'échange : + {{ demand.amount }} grains de sel</p>
             <button type="submit">Annuler</button>
         </form>  
@@ -24,8 +24,8 @@
 
 <script>  
 //import categoriesQuery from '~/apollo/queries/category/categories'
-import membersQuery from '~/apollo/queries/member/members'
-import memberQuery from '~/apollo/queries/member/member'
+import usersQuery from '~/apollo/queries/user/users'
+import userQuery from '~/apollo/queries/user/user'
 import demandQuery from '~/apollo/queries/demand/demand'
 import gql from 'graphql-tag'
 
@@ -42,16 +42,16 @@ export default {
     },
     
     apollo: {
-        member: {
+        user: {
             prefetch: true,
-            query: memberQuery,
+            query: userQuery,
             variables () {
                 return { id: this.$route.params.id }
             }
         },
-        members: {
+        users: {
             prefetch: true,
-            query: membersQuery,
+            query: usersQuery,
         },
         demand: {
             prefetch: true,
@@ -75,13 +75,13 @@ export default {
                             data: {      
                                 state:0
                                 amount:0
-                                memberExchange:null
+                                userExchange:null
                                 }
                             }) {
                                 demand {
                                     state
                                     amount
-                                    memberExchange{id}
+                                    userExchange{id}
                                 }
                         }
                     }

@@ -20,7 +20,7 @@
                                     <td><router-link tag="a" :to="{ name:'voir-les-demandes-demande-id', params: { id:demand.id }}" exact>{{ demand.title }}</router-link></td>
                                     <td>{{ demand.description | summary }}</td>
                                     <td>{{ demand.expirationDate | dateFormat }}</td>
-                                    <td><router-link tag="a" :to="{ name:'member-id', params: { id:demand.member.id }}" exact>{{ demand.member.pseudo }}</router-link></td>
+                                    <td><router-link tag="a" :to="{ name:'member-id', params: { id:demand.user.id }}" exact>{{ demand.user.username }}</router-link></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -45,7 +45,7 @@
                                 <td><router-link tag="a" :to="{ name:'voir-les-offres-offre-id', params: { id:offer.id }}" exact>{{ offer.title }}</router-link></td>
                                 <td>{{ offer.description | summary }}</td>
                                 <td>{{ offer.expirationDate | dateFormat }}</td>
-                                <td><router-link tag="a" :to="{ name:'member-id', params: { id:offer.member.id }}" exact>{{ offer.member.pseudo }}</router-link></td>
+                                <td><router-link tag="a" :to="{ name:'member-id', params: { id:offer.user.id }}" exact>{{ offer.user.username }}</router-link></td>
                             </tr>
                         </tbody>
                     </table>

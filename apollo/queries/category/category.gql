@@ -8,9 +8,9 @@ query Category($id:ID!){
       description
       expirationDate
       state
-      member{
+      user{
         id
-      	pseudo
+      	username
       }
     }
     offers(sort:"expirationDate:desc", where:{state:0}){
@@ -19,9 +19,9 @@ query Category($id:ID!){
       description
       expirationDate
       state
-      member{
+      user{
         id
-      	pseudo
+      	username
       }
     }
   }

@@ -1,12 +1,12 @@
 <template>
  <div class="table-container">
     <ul class="member-menu">
-        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:member.id }}" exact>Mon profil</router-link></li>
-        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:member.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
-        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:member.id }}" exact>Gérer mes échanges</router-link></li>
-        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:member.id }}" exact>Déposer une offre</router-link></li>
-        <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:member.id }}" exact>Déposer une demande</router-link></li>
-        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:member.id }}" exact>Liste des membres</router-link></li>
+        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:user.id }}" exact>Mon profil</router-link></li>
+        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:user.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
+        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:user.id }}" exact>Gérer mes échanges</router-link></li>
+        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:user.id }}" exact>Déposer une offre</router-link></li>
+        <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:user.id }}" exact>Déposer une demande</router-link></li>
+        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:user.id }}" exact>Liste des membres</router-link></li>
     </ul>
     <div class="form-container">
         <h2>Détails de l'échange</h2>
@@ -15,9 +15,9 @@
             <p>Description de la demande : {{ demand.description }}</p>
              <p>
                 <label>Sélectionnez la personne concernée par l'échange</label>                
-                <select v-model="memberExchange">
-                    <option v-for="member in members" :value="member.id">
-                    {{ member.pseudo }}
+                <select v-model="userExchange">
+                    <option v-for="user in users" :value="user.id">
+                    {{ user.username }}
                     </option>
                 </select>
             </p>
@@ -34,8 +34,8 @@
 
 <script>  
 //import categoriesQuery from '~/apollo/queries/category/categories'
-import membersQuery from '~/apollo/queries/member/members'
-import memberQuery from '~/apollo/queries/member/member'
+import usersQuery from '~/apollo/queries/user/users'
+import userQuery from '~/apollo/queries/user/user'
 import demandQuery from '~/apollo/queries/demand/demand'
 import gql from 'graphql-tag'
 
@@ -52,16 +52,16 @@ export default {
     },
     
     apollo: {
-        member: {
+        user: {
             prefetch: true,
-            query: memberQuery,
+            query: userQuery,
             variables () {
                 return { id: this.$route.params.id }
             }
         },
-        members: {
+        users: {
             prefetch: true,
-            query: membersQuery,
+            query: usersQuery,
         },
         demand: {
             prefetch: true,
@@ -79,7 +79,7 @@ export default {
                 mutation (
                 $id: ID!
                 $amount: Int 
-                $memberExchange:ID!
+                $userExchange:ID!
                 ){
                     updateDemand(input: {where: {
                     id: $id
@@ -87,14 +87,14 @@ export default {
                         data: {
                             amount:$amount
                             state:1
-                            memberExchange:$memberExchange
+                            userExchange:$userExchange
                             }
                         }) {
                             demand {
                                 
                                 amount
                                 state
-                                memberExchange{
+                                userExchange{
                                     id
                                     }
                             }
@@ -104,7 +104,7 @@ export default {
             variables: {
                 id: this.$route.params.title,
                 amount: parseInt(this.amount, 10),
-                memberExchange: this.memberExchange
+                userExchange: this.userExchange
                 }
             })
             .then((data) => {

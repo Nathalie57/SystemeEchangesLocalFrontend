@@ -3,28 +3,28 @@
         <client-only>
             <div class="table-container">
                 <ul class="member-menu">
-                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:member.id }}" exact>Mon profil</router-link></li>
-                    <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:member.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
-                    <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:member.id }}" exact>Gérer mes échanges</router-link></li>
-                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:member.id }}" exact>Déposer une offre</router-link></li>
-                    <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:member.id }}" exact>Déposer une demande</router-link></li>
-                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:member.id }}" exact>Liste des membres</router-link></li>
+                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:user.id }}" exact>Mon profil</router-link></li>
+                    <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:user.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
+                    <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:user.id }}" exact>Gérer mes échanges</router-link></li>
+                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:user.id }}" exact>Déposer une offre</router-link></li>
+                    <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:user.id }}" exact>Déposer une demande</router-link></li>
+                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:user.id }}" exact>Liste des membres</router-link></li>
 
                 </ul>
-                <h2>Bonjour {{ member.pseudo }} !</h2>
-                <h2 v-if="member.walletAmount!=null">Contenu de votre porte-monnaie : {{member.walletAmount }} grains de sel</h2>
+                <h2>Bonjour {{ user.username }} !</h2>
+                <h2 v-if="user.walletAmount!=null">Contenu de votre porte-monnaie : {{user.walletAmount }} grains de sel</h2>
                 <div v-else>Votre porte-monnaie est vide</div>
-                <h2>Date d'inscription:</h2><p>{{ member.registrationDate | dateFormat }}
+                <h2>Date d'inscription:</h2><p>{{ user.registrationDate | dateFormat }}
                 <h2>Votre profil :</h2>
-                    <p>Nom : {{ member.lastname }}</p>
-                    <p>Prénom : {{ member.firstname }}</p>
-                    <p>Pseudo : {{ member.pseudo }}</p>
-                    <p>Date de naissance : {{ member.birthday | dateFormat }}</p>
+                    <p>Nom : {{ user.lastname }}</p>
+                    <p>Prénom : {{ user.firstname }}</p>
+                    <p>Pseudo : {{ user.username }}</p>
+                    <p>Date de naissance : {{ user.birthday | dateFormat }}</p>
                 <h2>Vos coordonnées :</h2>
-                    <p>Adresse : {{ member.address}}</br>
-                                 {{ member.zip}} {{ member.town }}</p>
-                    <p>Numéro de téléphone : {{ member.phonenumber}}</p>
-                    <p>Email : {{ member.email }}</p>
+                    <p>Adresse : {{ user.address}}</br>
+                                 {{ user.zip}} {{ user.town }}</p>
+                    <p>Numéro de téléphone : {{ user.phonenumber}}</p>
+                    <p>Email : {{ user.email }}</p>
                     </br>
                 <button>Modifier votre profil</button>
             </div>
@@ -33,25 +33,30 @@
 </template>
 
 <script>  
-import memberQuery from '~/apollo/queries/member/member'
+import userQuery from '~/apollo/queries/user/user'
+
+import axios from 'axios';
+
 
 export default {  
     layout: 'withCategories',
     data() {
         return {
-            member: Object,
+            user: Object,
             login: true
         }
     },
     apollo: {
-        member: {
+        user: {
             prefetch: true,
-            query: memberQuery,
+            query: userQuery,
             variables () {
                 return { id: this.$route.params.id }
             }
         }
     },
+
+   
 }
 </script>
 

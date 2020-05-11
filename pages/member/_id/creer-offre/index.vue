@@ -1,14 +1,14 @@
 <template>
  <div class="table-container">
     <ul class="member-menu">
-        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:member.id }}" exact>Mon profil</router-link></li>
-        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:member.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
-        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:member.id }}" exact>Gérer mes échanges</router-link></li>
-        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:member.id }}" exact>Déposer une offre</router-link></li>
-        <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:member.id }}" exact>Déposer une demande</router-link></li>
-        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:member.id }}" exact>Liste des membres</router-link></li>
+        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:user.id }}" exact>Mon profil</router-link></li>
+        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:user.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
+        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:user.id }}" exact>Gérer mes échanges</router-link></li>
+        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:user.id }}" exact>Déposer une offre</router-link></li>
+        <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:user.id }}" exact>Déposer une demande</router-link></li>
+        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:user.id }}" exact>Liste des membres</router-link></li>
     </ul>
-    <h2>Bonjour {{ member.pseudo }} !</h2>
+    <h2>Bonjour {{ user.username }} !</h2>
     <div class="form-container">
         <h2>Quelle offre souhaitez-vous déposer ?</h2>
         <form method="POST" @submit.prevent="newOffer">
@@ -41,7 +41,7 @@
 
 <script>  
 import categoriesQuery from '~/apollo/queries/category/categories'
-import memberQuery from '~/apollo/queries/member/member'
+import userQuery from '~/apollo/queries/user/user'
 import gql from 'graphql-tag'
 
 export default {  
@@ -61,9 +61,9 @@ export default {
             prefetch: true,
             query: categoriesQuery,
         },
-        member: {
+        user: {
             prefetch: true,
-            query: memberQuery,
+            query: userQuery,
             variables () {
                 return { id: this.$route.params.id }
             }
@@ -79,7 +79,7 @@ export default {
                     $description: String
                     $category: ID
                     $expirationDate: DateTime
-                    $member:ID
+                    $user:ID
                           
                 ){
                     createOffer(input: {
@@ -88,7 +88,7 @@ export default {
                             description: $description
                             category: $category
                             expirationDate: $expirationDate
-                            member: $member
+                            user: $user
                             state: 0
                         }
                     }) {
@@ -101,7 +101,7 @@ export default {
                                 id
                                 title
                                 }    
-                            member{
+                            user{
                                 id
                             }                     
                         }
@@ -112,7 +112,7 @@ export default {
                 title: this.title,
                 description: this.description,
                 category: this.category,
-                member: this.$route.params.id,
+                user: this.$route.params.id,
                 expirationDate: this.expirationDate
                 }
             })

@@ -21,7 +21,7 @@
                                   <td>{{ offer.description | summary }}</td>
                                   <td><router-link tag="a" :to="{ name: 'category-id', params: {id:offer.category.id}}" exact>{{ offer.category.title }}</router-link></td>
                                   <td>{{ offer.expirationDate | dateFormat }}</td>
-                                  <td><router-link tag="a" :to="{ name:'member-id', params: { id:offer.member.id }}" exact>{{ offer.member.pseudo }}</router-link></td>
+                                  <td><router-link tag="a" :to="{ name:'member-id', params: { id:offer.user.id }}" exact>{{ offer.user.username }}</router-link></td>
                               </tr>
                           </tbody>
                       </table>
@@ -65,7 +65,7 @@
 </template>
 
 <script>  
-import offersWithMemberQuery from '~/apollo/queries/offer/offersWithMember'
+import offersWithUserQuery from '~/apollo/queries/offer/offersWithUser'
 
 export default {  
     layout: 'withCategories',
@@ -78,16 +78,9 @@ export default {
     apollo: {
         offers: {
             prefetch: true,
-            query: offersWithMemberQuery
+            query: offersWithUserQuery
         }
     },
-    computed: {
-        filteredList() {
-            return this.offers.filter(offer => {
-            return offersWithMemberQuery.title.toLowerCase().includes(this.query.toLowerCase())
-            })
-        },
-    }
 }
 
 </script>  

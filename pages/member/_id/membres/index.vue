@@ -2,20 +2,20 @@
     <div>
         <client-only>
         <div v-if="login">
-            <div class="table-container" v-if="members">
+            <div class="table-container">
                 <ul class="member-menu">
-                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:member.id }}" exact>Mon profil</router-link></li>
-                    <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:member.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
-                    <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:member.id }}" exact>Gérer mes échanges</router-link></li>
-                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:member.id }}" exact>Déposer une offre</router-link></li>
-                    <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:member.id }}" exact>Déposer une demande</router-link></li>
-                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:member.id }}" exact>Liste des membres</router-link></li>
-                </ul>      
-                <h2>Bonjour {{ member.pseudo }} !</h2>      
-                <table>
+                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:user.id }}" exact>Mon profil</router-link></li>
+                    <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:user.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
+                    <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:user.id }}" exact>Gérer mes échanges</router-link></li>
+                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:user.id }}" exact>Déposer une offre</router-link></li>
+                    <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:user.id }}" exact>Déposer une demande</router-link></li>
+                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres'}" exact>Liste des membres</router-link></li>
+                </ul>
+                <h2>Bonjour {{ user.username }} !</h2>
+                <table v-if="users">
                     <thead>
                         <tr>
-                            <th>Pseudo</th>
+                            <th>Nom</th>
                             <th>Date d'inscription</th>
                             <th>Email</th>
                             <th>Numéro de téléphone</th>
@@ -23,12 +23,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="member in members">
-                            <td>{{ member.pseudo }}</td>
-                            <td>{{ member.registrationDate }}</td>
-                            <td>{{ member.email }}</td>
-                            <td>{{ member.phonenumber }}</td>
-                            <td><router-link tag="a" :to="{ name:'member-id', params: { id:member.id }}" exact>Voir les offres et les demandes</router-link></td>
+                        <tr v-for="user in users">
+                            <td>{{ user.firstname }} {{ user.lastname }}</td>
+                            <td>{{ user.registrationDate | dateFormat }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.phonenumber }}</td>
+                            <td><router-link tag="a" :to="{ name:'member-id', params: { id:user.id }}" exact>Voir les offres et les demandes</router-link></td>
                         </tr>
                     </tbody>
                 </table>
@@ -44,25 +44,25 @@
 </template>
 
 <script>  
-import membersQuery from '~/apollo/queries/member/members'
-import memberQuery from '~/apollo/queries/member/member'
+import usersQuery from '~/apollo/queries/user/users'
+import userQuery from '~/apollo/queries/user/user'
 
 export default {  
     layout: 'withCategories',
     data() {
         return {
-            members: Object,
+            users: Object,
             login: true
         }
     },
     apollo: {
-        members: {
+        users: {
             prefetch: true,
-            query: membersQuery,
+            query: usersQuery,
         },
-        member: {
+        user: {
             prefetch: true,
-            query: memberQuery,
+            query: userQuery,
             variables () {
                 return { id: this.$route.params.id }
             }

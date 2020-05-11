@@ -7,9 +7,9 @@ query Categories {
       title
       description
       expirationDate
-      member{
+      user{
         id
-      	pseudo
+      	username
       }
     }
     offers(sort:"expirationDate:desc"){
@@ -17,9 +17,9 @@ query Categories {
       title
       description
       expirationDate
-      member{
+      user{
         id
-      	pseudo
+      	username
       }
     }
   }

@@ -1,0 +1,8 @@
+query PropositionsLimitThree {  
+  propositions(where:{propositionType:"offer", state:0}, limit:3 sort:"expirationDate:desc") {
+    id
+    title
+    description
+    expirationDate
+  }
+}

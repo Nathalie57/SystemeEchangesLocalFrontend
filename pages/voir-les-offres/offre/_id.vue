@@ -6,7 +6,7 @@
                 <h3>Description : {{ offer.description }}</h3>
                 <h3>Date d'expiration de l'offre : {{offer.expirationDate | dateFormat }}</h3>
                 <h3 v-if="offer.category">Catégorie : <router-link tag="a" :to="{ name:'category-id', params: { id:offer.category.id }}" exact>{{ offer.category.title }}</router-link></h3>
-                <h3 v-if="offer.member">Membre ayant publié l'offre : <router-link tag="a" :to="{ name:'member-id', params: { id:offer.member.id }}" exact>{{ offer.member.pseudo }}</router-link></h3>                
+                <h3 v-if="offer.user">Membre ayant publié l'offre : <router-link tag="a" :to="{ name:'member-id', params: { id:offer.user.id }}" exact>{{ offer.user.username }}</router-link></h3>                
             </div>        
         </client-only>
     </div>
@@ -14,22 +14,22 @@
 </template>
 
 <script>  
-import memberQuery from '~/apollo/queries/member/member'
+import userQuery from '~/apollo/queries/user/user'
 import offerQuery from '~/apollo/queries/offer/offer'
 
 export default {  
     layout: 'withCategories',
     data() {
         return {
-            member: Object,
+            user: Object,
             offer: Object,
             login: true
         }
     },
     apollo: {
-        member: {
+        user: {
             prefetch: true,
-            query: memberQuery,
+            query: userQuery,
             variables () {
                 return { id: this.$route.params.id }
             }

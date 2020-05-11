@@ -1,0 +1,11 @@
+query Users{
+  users(sort:"username:asc"){
+    id
+    lastname
+    firstname
+    username
+    email
+    phonenumber
+    registrationDate
+  }
+}

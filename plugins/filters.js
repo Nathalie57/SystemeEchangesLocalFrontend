@@ -12,3 +12,6 @@ Vue.filter('dateFormat', function (value){
  // return date;
 })
 
+Vue.filter('firstLetter', function strUcFirst(a){
+  {return (a+'').charAt(0).toUpperCase()+a.substr(1);}
+})

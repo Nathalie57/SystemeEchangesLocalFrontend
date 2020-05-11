@@ -1,0 +1,10 @@
+query Propositions {  
+  propositions {
+    id
+    propositionType
+    title
+    description
+    propositionDate
+    expirationDate
+  }
+}

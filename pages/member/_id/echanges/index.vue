@@ -3,16 +3,16 @@
         <client-only>
             <div class="table-container">
                 <ul class="member-menu">
-                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:member.id }}" exact>Mon profil</router-link></li>
-                    <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:member.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
-                    <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:member.id }}" exact>Gérer mes échanges</router-link></li>
-                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:member.id }}" exact>Déposer une offre</router-link></li>
-                    <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:member.id }}" exact>Déposer une demande</router-link></li>
-                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:member.id }}" exact>Liste des membres</router-link></li>
+                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:user.id }}" exact>Mon profil</router-link></li>
+                    <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:user.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
+                    <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:user.id }}" exact>Gérer mes échanges</router-link></li>
+                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:user.id }}" exact>Déposer une offre</router-link></li>
+                    <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:user.id }}" exact>Déposer une demande</router-link></li>
+                    <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:user.id }}" exact>Liste des membres</router-link></li>
                 </ul>
-                <h2>Bonjour {{ member.pseudo }} !</h2>
+                <h2>Bonjour {{ user.username }} !</h2>
                 <h2>Echanges en attente de confirmation</h2>
-                <div v-if="member.demands && member.demands.length>0 || member.offers && member.offers.length>0">                    
+                <div v-if="user.demands && user.demands.length>0 || user.offers && user.offers.length>0">                    
                     <table>
                         <thead>
                             <tr>
@@ -25,22 +25,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="demand in member.demands" v-if="demand.state==1">
+                            <tr v-for="demand in user.demands" v-if="demand.state==1">
                                 <td>Demande</td>
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
                                 <td>- {{ demand.amount }} grains de sel</td>
-                                <td>{{ demand.memberExchange.pseudo }}</td>
-                                <td><router-link tag="a" :to="{ name:'member-id-echanges-annulation-demande-title', params: { id:member.id, title:demand.id }}" exact><button class="see-more-button">Annuler</button></router-link></td>
+                                <td>{{ demand.userExchange.username }}</td>
+                                <td><router-link tag="a" :to="{ name:'member-id-echanges-annulation-demande-title', params: { id:user.id, title:demand.id }}" exact><button class="see-more-button">Annuler</button></router-link></td>
 
                             </tr>
-                            <tr v-for="offer in member.offers" v-if="offer.state==1">
+                            <tr v-for="offer in user.offers" v-if="offer.state==1">
                                 <td>Offre</td>
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
                                 <td>+ {{ offer.amount }} grains de sel</td>
-                                <td>{{ offer.memberExchange.pseudo }}</td>
-                                <td><router-link tag="a" :to="{ name:'member-id-echanges-annulation-offre-title', params: { id:member.id, title:demand.id }}" exact><button class="see-more-button">Annuler</button></router-link></td>
+                                <td>{{ offer.userExchange.username }}</td>
+                                <td><router-link tag="a" :to="{ name:'member-id-echanges-annulation-offre-title', params: { id:user.id, title:offer.id }}" exact><button class="see-more-button">Annuler</button></router-link></td>
                             </tr>
                         </tbody>
                     </table>
@@ -63,20 +63,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="demand in demands" v-if="demand.memberExchange && demand.memberExchange.id==member.id && demand.state==1">
+                            <tr v-for="demand in demands" v-if="demand.userExchange && demand.userExchange.id==user.id && demand.state==1">
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
                                 <td>+ {{ demand.amount }} grains de sel</td>
-                                <td>{{ demand.member.pseudo }}</td>
-                                <td><router-link tag="a" :to="{ name:'member-id-echanges-validation-demande-title', params: { id:member.id, title:demand.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
+                                <td>{{ demand.user.username }}</td>
+                                <td><router-link tag="a" :to="{ name:'member-id-echanges-validation-demande-title', params: { id:user.id, title:demand.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
                                 <td><button class="see-more-button">Annuler</button></td>
                             </tr>
-                            <tr v-for="offer in offers" v-if="offer.memberExchange && offer.memberExchange.id==member.id && offer.state==1">
+                            <tr v-for="offer in offers" v-if="offer.userExchange && offer.userExchange.id==user.id && offer.state==1">
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
                                 <td>- {{ offer.amount }} grains de sel</td>
-                                <td>{{ offer.member.pseudo }}</td>
-                                <td><router-link tag="a" :to="{ name:'member-id-echanges-validation-offre-title', params: { id:member.id, title:offer.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
+                                <td>{{ offer.user.username }}</td>
+                                <td><router-link tag="a" :to="{ name:'member-id-echanges-validation-offre-title', params: { id:user.id, title:offer.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
                                 <td><button class="see-more-button">Annuler</button></td>
                             </tr>
                         </tbody>
@@ -87,7 +87,7 @@
                 </div>
 
                 <h2>Echanges réalisés</h2>
-                <div v-if="member.demands || member.offers">                    
+                <div v-if="user.demands || user.offers">                    
                     <table>
                         <thead>
                             <tr>
@@ -98,29 +98,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="demand in member.demands" v-if="demand.memberExchange && demand.state==2">
+                            <tr v-for="demand in user.demands" v-if="demand.userExchange && demand.state==2">
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
                                 <td>- {{ demand.amount }} grains de sel</td>
-                                <td>{{ demand.memberExchange.pseudo }}</td>
+                                <td>{{ demand.userExchange.username }}</td>
                             </tr>
-                            <tr v-for="offer in member.offers" v-if="offer.memberExchange && offer.state==2">
+                            <tr v-for="offer in user.offers" v-if="offer.userExchange && offer.state==2">
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
                                 <td>+ {{ offer.amount }} grains de sel</td>
-                                <td>{{ offer.memberExchange.pseudo }}</td>
+                                <td>{{ offer.userExchange.username }}</td>
                             </tr>
-                            <tr v-for="demand in demands" v-if="demand.memberExchange && demand.memberExchange.id==member.id && demand.state==2">
+                            <tr v-for="demand in demands" v-if="demand.userExchange && demand.userExchange.id==user.id && demand.state==2">
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
                                 <td>+ {{ demand.amount }} grains de sel</td>
-                                <td>{{ demand.member.pseudo }}</td>
+                                <td>{{ demand.user.username }}</td>
                             </tr>
-                            <tr v-for="offer in offers" v-if="offer.memberExchange && offer.memberExchange.id==member.id && offer.state==2">
+                            <tr v-for="offer in offers" v-if="offer.userExchange && offer.userExchange.id==user.id && offer.state==2">
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
                                 <td>- {{ offer.amount }} grains de sel</td>
-                                <td>{{ offer.member.pseudo }}</td>
+                                <td>{{ offer.user.username }}</td>
                                 
                             </tr>
                         </tbody>
@@ -135,7 +135,7 @@
 </template>
 
 <script>  
-import memberQuery from '~/apollo/queries/member/member'
+import userQuery from '~/apollo/queries/user/user'
 import demandQuery from '~/apollo/queries/demand/demand'
 import offerQuery from '~/apollo/queries/offer/offer'
 import demandsInWaitQuery from '~/apollo/queries/demand/demandsInWait'
@@ -145,15 +145,15 @@ export default {
     layout: 'withCategories',
     data() {
         return {
-            member: Object,
+            user: Object,
             demands: Object,
             login: true,
         }
     },
     apollo: {
-        member: {
+        user: {
             prefetch: true,
-            query: memberQuery,
+            query: userQuery,
             variables () {
                 return { id: this.$route.params.id }
             }

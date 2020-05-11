@@ -14,7 +14,7 @@
             </p>
             <p>
                 <label>Pseudo</label><br/>
-                <input type="text" v-model="pseudo" required><br/>
+                <input type="text" v-model="username" required><br/>
             </p>
             <p>
                 <label>Date de naissance</label><br/>
@@ -40,10 +40,6 @@
                 <label>Code postal</label></br>
                 <input type="text" v-model="zip" placeholder="71000" onFocus="this.placeholder=''" required>
             </p>
-             <p>
-                <label>Pays</label></br>
-                <input type="text" v-model="country" placeholder="France" onFocus="this.placeholder=''" required>
-            </p>
             <p>
                 <label>Mot de passe</label><br/>
                 <input type="password" v-model="password" required><br/>
@@ -58,33 +54,86 @@
 
 <script>
 
-//import securityPassword from '~/plugins/securityPassword'
-
-//import { mapMutations } from 'vuex'  
 import gql from 'graphql-tag'
 
-export default{
+import axios from 'axios';
+
+export default { 
+    data() {
+    return {
+      lastname:'',
+      firstname:'',
+      username: '',
+      birthday:'',
+      phonenumber:'',
+      email:'',
+      address:'',
+      town:'',
+      zip:'',
+      password:'',
+      token:'',
+      errors: []
+    }
+  },
+
+methods: {
+    register() {
+      axios.post('http://localhost:1337/auth/local/register',{
+            lastname: this.lastname,
+            firstname: this.firstname,
+            username: this.username,
+            birthday: this.birthday,
+            phonenumber: this.phonenumber,
+            email: this.email,
+            address: this.address,
+            town: this.town,
+            zip: this.zip,
+            password: this.password,
+            token: this.token
+            //jwt: this.jwt
+      })
+        .then((Response) => {
+            axios.post('http://localhost:1337/tokens',{
+                token: this.jwt
+            })
+            
+           .then(response => {
+                // Handle success.
+                console.log('Well done!');
+                console.log('User profile', response.data.user);
+                console.log('User token', response.data.jwt);
+            })
+            .catch(error => {
+                // Handle error.
+                console.log('An error occurred:', error);
+            });
+        })
+        .catch((err) => {
+          this.errors.push(err)
+        })
+    }
+  }
+}
+</script>
+/*export default{
   name: 'Register',
   data() {
     return {
       lastname: '',
       firstname: '',
-      pseudo: '',
+      username: '',
       birthday: '',
       phonenumber: '',
       email: '',
       address: '',
       town: '',
       zip: '',
-      country: '',
       password: '',
      // secondPassword: '',
       errors: [],
     }
   },
- /* mounted () {
-    this.$securityPassword()
-  },*/
+
   methods: {
     register (event) {
       this.$apollo
@@ -93,43 +142,43 @@ export default{
             mutation (
               $lastname: String
               $firstname: String
-              $pseudo: String!
+              $username: String!
               $birthday: DateTime
               $phonenumber: String
-              $email: String
+              $email: String!
               $address: String
               $town: String
               $zip: String
-              $country:String
               $password: String
             ){
-                createMember(input: {
+                createUser(input: {
                     data: {
                         lastname: $lastname
                         firstname: $firstname
-                        pseudo: $pseudo
+                        username: $username
                         birthday: $birthday
                         phonenumber: $phonenumber
                         email: $email
                         address: $address
                         town: $town
                         zip: $zip
-                        country: $country
                         password: $password
+                        confirmed: true
                     }
                 }) {
-                    member{
+                    user{
                         id
                         lastname
                         firstname
-                        pseudo
+                        username
                         birthday
                         phonenumber
                         email
                         address
                         town
                         zip
-                        password
+                        confirmed
+                        
                     }
                 }
             }
@@ -137,14 +186,13 @@ export default{
           variables: {
             lastname: this.lastname,
             firstname: this.firstname,
-            pseudo: this.pseudo,
+            username: this.username,
             birthday: this.birthday,
             phonenumber: this.phonenumber,
             email: this.email,
             address: this.address,
             town: this.town,
             zip: this.zip,
-            country: this.country,
             password: this.password
           }
         })
@@ -165,11 +213,7 @@ export default{
       return regex.test(phonenumber);
     }
   }
-}
-//  mounted: {
-//    this.$securityPassword()
-//  }
-/*v-on:input="securityPassword"*/ 
+}*/
 </script>
 
 <style>
