@@ -14,7 +14,7 @@
             <p>Titre de la demande : {{ demand.title }}</p>
             <p>Description de la demande : {{ demand.description }}</p>
             <p v-if="demand.category">Catégorie : {{ demand.category.title }}</p>
-            <p>Date d'expiration : {{ demand.expirationDate }}</p>
+            <p>Date d'expiration : {{ demand.expirationDate | dateFormat }}</p>
             <button type="submit">Supprimer</button>
         </form>  
       </div>

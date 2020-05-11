@@ -8,6 +8,8 @@ query DemandsWithUser {
     user{
       id
       username
+      lastname
+      firstname
     }
     category{
       id

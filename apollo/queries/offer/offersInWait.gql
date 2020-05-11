@@ -7,11 +7,15 @@ query Offers{
     user{
       id
       username
+      lastname
+      firstname
     }
     amount
     userExchange{
       id
       username
+      lastname
+      firstname
     }
   }
 }

@@ -14,7 +14,7 @@
             <p>Titre de l'offre : {{ offer.title }}</p>
             <p>Description de l'offre : {{ offer.description }}</p>
             <p v-if="offer.category">Catégorie : {{ offer.category.title }}</p>
-            <p>Date d'expiration : {{ offer.expirationDate }}</p>
+            <p>Date d'expiration : {{ offer.expirationDate | dateFormat }}</p>
             <button type="submit">Supprimer</button>
         </form>  
       </div>

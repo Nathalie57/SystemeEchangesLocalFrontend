@@ -17,7 +17,7 @@
                 <label>Sélectionnez la personne concernée par l'échange</label>                
                 <select v-model="userExchange">
                     <option v-for="user in users" :value="user.id">
-                    {{ user.username }}
+                    {{ user.firstname }} {{ user.lastname }}
                     </option>
                 </select>
             </p>

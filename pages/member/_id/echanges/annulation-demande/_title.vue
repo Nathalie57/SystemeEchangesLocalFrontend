@@ -13,7 +13,7 @@
         <form method="POST" @submit.prevent="cancelDemand">
             <p>Titre de la demande : {{ demand.title }}</p>
             <p>Description de la demande : {{ demand.description }}</p>
-            <p v-if="demand.user">Personne concernée par l'échange : {{ demand.user.username }}</p>
+            <p v-if="demand.user">Personne concernée par l'échange : {{ demand.user.firstname | firstLetter }} {{ demand.user.lastname | firstLetter }}</p>
             <p>Montant de l'échange : + {{ demand.amount }} grains de sel</p>
             <button type="submit">Annuler</button>
         </form>  

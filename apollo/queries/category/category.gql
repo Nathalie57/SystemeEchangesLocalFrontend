@@ -10,6 +10,8 @@ query Category($id:ID!){
       state
       user{
         id
+        lastname
+        firstname
       	username
       }
     }
@@ -22,6 +24,8 @@ query Category($id:ID!){
       user{
         id
       	username
+        lastname
+        firstname
       }
     }
   }

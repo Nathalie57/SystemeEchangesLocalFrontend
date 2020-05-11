@@ -123,6 +123,6 @@ export default {
             this.errors = e.graphQLErrors
             })
         }
-    }
+    },
 }
 </script>

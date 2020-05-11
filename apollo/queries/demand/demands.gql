@@ -10,10 +10,14 @@ query Demands {
     user{
       id
       username
+      lastname
+      firstname
     }
     userExchange{
       id
       username
+      lastname
+      firstname
     }
   }
 }

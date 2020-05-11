@@ -9,6 +9,8 @@ query Offer($id:ID!) {
     state
     user{
       id
+      firstname
+      lastname
       username
       walletAmount
     }
@@ -18,6 +20,8 @@ query Offer($id:ID!) {
     }
     userExchange{
         id
+        firstname
+        lastname
         username
         walletAmount
     }

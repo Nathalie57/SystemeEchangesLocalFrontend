@@ -6,7 +6,7 @@
                 <h3>Description : {{ offer.description }}</h3>
                 <h3>Date d'expiration de l'offre : {{offer.expirationDate | dateFormat }}</h3>
                 <h3 v-if="offer.category">Catégorie : <router-link tag="a" :to="{ name:'category-id', params: { id:offer.category.id }}" exact>{{ offer.category.title }}</router-link></h3>
-                <h3 v-if="offer.user">Membre ayant publié l'offre : <router-link tag="a" :to="{ name:'member-id', params: { id:offer.user.id }}" exact>{{ offer.user.username }}</router-link></h3>                
+                <h3 v-if="offer.user">Membre ayant publié l'offre : <router-link tag="a" :to="{ name:'member-id', params: { id:offer.user.id }}" exact>{{ offer.user.firstname | firstLetter }} {{ offer.user.lastname | firstletter }}</router-link></h3>                
             </div>        
         </client-only>
     </div>

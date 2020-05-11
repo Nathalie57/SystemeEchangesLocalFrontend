@@ -9,6 +9,8 @@ query Demand($id:ID!) {
     state
     user{
       id
+      lastname
+      firstname
       username
       walletAmount
     }
@@ -18,6 +20,8 @@ query Demand($id:ID!) {
     }
     userExchange{
         id
+        lastname
+        firstname
         username
         walletAmount
     }

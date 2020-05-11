@@ -1,5 +1,5 @@
 query Users{
-  users(sort:"username:asc"){
+  users(sort:"lastname:asc"){
     id
     lastname
     firstname

@@ -13,7 +13,7 @@
         <form method="POST" @submit.prevent="offerValidation">
             <p>Titre de l'offre : {{ offer.title }}</p>
             <p>Description de l'offre : {{ offer.description }}</p>
-            <p v-if="offer.user">Personne concernée par l'échange : {{ offer.user.username }}</p>
+            <p v-if="offer.user">Personne concernée par l'échange : {{ offer.user.firstname | firstLetter }} {{ offer.user.lastname | firstLetter }}</p>
             <p>Montant de l'échange : - {{ offer.amount }} grains de sel</p>
             <button type="submit">Valider</button>
         </form>  

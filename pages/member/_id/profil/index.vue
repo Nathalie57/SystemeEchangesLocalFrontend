@@ -52,9 +52,10 @@ export default {
             query: userQuery,
             variables () {
                 return { id: this.$route.params.id }
-            }
+            },
         }
     },
+    
 
    
 }

@@ -30,7 +30,7 @@
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
                                 <td>- {{ demand.amount }} grains de sel</td>
-                                <td>{{ demand.userExchange.username }}</td>
+                                <td>{{ demand.userExchange.firstname | firstLetter }} {{ demand.userExchange.lastname | firstletter }}</td>
                                 <td><router-link tag="a" :to="{ name:'member-id-echanges-annulation-demande-title', params: { id:user.id, title:demand.id }}" exact><button class="see-more-button">Annuler</button></router-link></td>
 
                             </tr>
@@ -39,7 +39,7 @@
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
                                 <td>+ {{ offer.amount }} grains de sel</td>
-                                <td>{{ offer.userExchange.username }}</td>
+                                <td>{{ offer.userExchange.firstname | firstLetter }} {{ offer.userExchange.lastname | firstletter }}</td>
                                 <td><router-link tag="a" :to="{ name:'member-id-echanges-annulation-offre-title', params: { id:user.id, title:offer.id }}" exact><button class="see-more-button">Annuler</button></router-link></td>
                             </tr>
                         </tbody>
@@ -67,7 +67,7 @@
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
                                 <td>+ {{ demand.amount }} grains de sel</td>
-                                <td>{{ demand.user.username }}</td>
+                                <td>{{ demand.user.firstname | firstLetter }} {{ demand.user.lastname | firstletter }}</td>
                                 <td><router-link tag="a" :to="{ name:'member-id-echanges-validation-demande-title', params: { id:user.id, title:demand.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
                                 <td><button class="see-more-button">Annuler</button></td>
                             </tr>
@@ -75,7 +75,7 @@
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
                                 <td>- {{ offer.amount }} grains de sel</td>
-                                <td>{{ offer.user.username }}</td>
+                                <td>{{ offer.user.firstname | firstLetter }} {{ offer.user.lastname | firstletter }}</td>
                                 <td><router-link tag="a" :to="{ name:'member-id-echanges-validation-offre-title', params: { id:user.id, title:offer.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
                                 <td><button class="see-more-button">Annuler</button></td>
                             </tr>
@@ -102,25 +102,25 @@
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
                                 <td>- {{ demand.amount }} grains de sel</td>
-                                <td>{{ demand.userExchange.username }}</td>
+                                <td>{{ demand.userExchange.firstname | firstLetter }} {{ demand.userExchange.lastname | firstletter }}</td>
                             </tr>
                             <tr v-for="offer in user.offers" v-if="offer.userExchange && offer.state==2">
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
                                 <td>+ {{ offer.amount }} grains de sel</td>
-                                <td>{{ offer.userExchange.username }}</td>
+                                <td>{{ offer.userExchange.firstname | firstLetter }} {{ offer.userExchange.lastname | firstletter }}</td>
                             </tr>
                             <tr v-for="demand in demands" v-if="demand.userExchange && demand.userExchange.id==user.id && demand.state==2">
                                 <td>{{ demand.title }}</td>
                                 <td>{{ demand.description }}</td>
                                 <td>+ {{ demand.amount }} grains de sel</td>
-                                <td>{{ demand.user.username }}</td>
+                                <td>{{demand.user.firstname | firstLetter }} {{demand.user.lastname | firstletter }}</td>
                             </tr>
                             <tr v-for="offer in offers" v-if="offer.userExchange && offer.userExchange.id==user.id && offer.state==2">
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description }}</td>
                                 <td>- {{ offer.amount }} grains de sel</td>
-                                <td>{{ offer.user.username }}</td>
+                                <td>{{ offer.user.firstname | firstLetter }} {{ offer.user.lastname | firstletter }}</td>
                                 
                             </tr>
                         </tbody>

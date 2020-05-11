@@ -24,7 +24,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="user in users">
-                            <td>{{ user.firstname }} {{ user.lastname }}</td>
+                            <td>{{ user.lastname }} {{ user.firstname }}</td>
                             <td>{{ user.registrationDate | dateFormat }}</td>
                             <td>{{ user.email }}</td>
                             <td>{{ user.phonenumber }}</td>
