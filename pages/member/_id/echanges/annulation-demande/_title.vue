@@ -91,6 +91,7 @@ export default {
                 }
             })
             .then((data) => {
+            this.$router.push({name: 'member-id-echanges', params: {id:this.$route.params.id}}),
             event.target.reset()
             })
             .catch((e) => {

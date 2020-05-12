@@ -9,7 +9,7 @@
             <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:user.id }}" exact>Liste des membres</router-link></li>
         </ul>
     <div class="form-container">
-        <h2>Bonjour {{ user.username }} !</h2>
+        <h2>Bonjour {{ user.username | firstLetter }} !</h2>
         <p>Vous pouvez renouveler votre offre en l'état ou en modifier des éléments. Pensez à modifier la date d'expiration.</p>
         <form method="POST" @submit.prevent="renewOffer">
             <p>
@@ -98,6 +98,7 @@ export default {
                             category: $category
                             expirationDate: $expirationDate
                             user: $user
+                            state: 0
                         }
                     }) {
                         offer {
@@ -124,6 +125,7 @@ export default {
                 }
             })
             .then((data) => {
+            this.$router.push({name: 'member-id-dashboard', params: {id:this.$route.params.id}}),
             event.target.reset()
             })
             .catch((e) => {

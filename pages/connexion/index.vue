@@ -29,9 +29,10 @@
 export default { 
     data() {
     return {
-     
       email:'',
       password:'',
+      token : '',
+      id: '',
       errors: []
     }
   },
@@ -39,11 +40,17 @@ export default {
 methods: {
     login() {
       axios.post('http://localhost:1337/auth/local',{
-            identifier: this.email,
-           
-            password: this.password,
+          identifier: this.email,
+          password: this.password,
+          id: this.id
+          /*headers: {
+              'Authorization': this.token
+          }*/
       })
+      
         .then((Response) => {
+          let id = 2;
+          this.$router.push({name: 'member-id-echanges', params: {id}}),
             console.log('Well done!');
             console.log('User profile', response.data.user);
             console.log('User token', response.data.jwt);

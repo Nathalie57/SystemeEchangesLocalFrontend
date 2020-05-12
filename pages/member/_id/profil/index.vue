@@ -34,16 +34,17 @@
 
 <script>  
 import userQuery from '~/apollo/queries/user/user'
-
-import axios from 'axios';
-
+//import axios from 'axios';
 
 export default {  
     layout: 'withCategories',
     data() {
         return {
             user: Object,
-            login: true
+            login: true,
+            headers: {
+                'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTU4OTEyNzAzNCwiZXhwIjoxNTkxNzE5MDM0fQ.ntR0u7JOSjuRzqZITa_c-lXcI4aYjy2BdqOshB-R9Ao'
+            } 
         }
     },
     apollo: {
@@ -55,9 +56,11 @@ export default {
             },
         }
     },
-    
-
-   
+   /* context: {
+        headers: {
+                'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTU4OTEyNzAzNCwiZXhwIjoxNTkxNzE5MDM0fQ.ntR0u7JOSjuRzqZITa_c-lXcI4aYjy2BdqOshB-R9Ao'
+            } 
+    }  */
 }
 </script>
 

@@ -149,6 +149,7 @@ export default {
                 .catch((e) => {
                 this.errors = e.graphQLErrors
                 })
+            this.$router.push({name: 'member-id-echanges', params: {id:this.$route.params.id}}),
             event.target.reset()
             })
             .catch((e) => {

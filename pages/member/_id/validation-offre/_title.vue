@@ -108,6 +108,8 @@ export default {
                 }
             })
             .then((data) => {
+           // let id =  this.$route.params.id;
+          this.$router.push({name: 'member-id-echanges', params: {id:this.$route.params.id}}),
             event.target.reset()
             })
             .catch((e) => {

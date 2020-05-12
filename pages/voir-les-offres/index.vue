@@ -21,7 +21,7 @@
                                   <td>{{ offer.description | summary }}</td>
                                   <td><router-link tag="a" :to="{ name: 'category-id', params: {id:offer.category.id}}" exact>{{ offer.category.title }}</router-link></td>
                                   <td>{{ offer.expirationDate | dateFormat }}</td>
-                                  <td><router-link tag="a" :to="{ name:'member-id', params: { id:offer.user.id }}" exact>{{ offer.user.firstname | firstLetter }} {{ offer.user.lastname | firstletter }}</router-link></td>
+                                  <td><router-link tag="a" :to="{ name:'member-id', params: { id:offer.user.id }}" exact>{{ offer.user.firstname | firstLetter }} {{ offer.user.lastname | firstLetter }}</router-link></td>
                               </tr>
                           </tbody>
                       </table>

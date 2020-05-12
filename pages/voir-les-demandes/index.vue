@@ -61,7 +61,8 @@
     
 </template>
 
-<script>  
+<script> 
+
 import demandsWithUserQuery from '~/apollo/queries/demand/demandsWithUser'
 import demandQuery from '~/apollo/queries/demand/demand'
 
@@ -89,4 +90,34 @@ export default {
         }
 }
 
+/*import axios from 'axios';
+export default { 
+    data(){
+        return {
+            login:true,
+            token : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTU4OTEyNzAzNCwiZXhwIjoxNTkxNzE5MDM0fQ.ntR0u7JOSjuRzqZITa_c-lXcI4aYjy2BdqOshB-R9Ao'
+        }
+    },
+    methods:{
+    // Request API.
+        demands(){axios
+        .get('http://localhost:1337/posts', {
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(response => {
+            // Handle success.
+            return{
+                title: this.demand.title
+            }
+            console.log('Data: ', response.data);
+        })
+        .catch(error => {
+            // Handle error.
+            console.log('An error occurred:', error);
+        });
+        }
+    }
+}*/
 </script>  
