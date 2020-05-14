@@ -5,7 +5,7 @@
         <form method="POST" @submit.prevent="register">
             <p>
                 <label>Nom</label><br/>
-                <input type="text" v-model="lastname" required autofocus>
+                <input type="text" v-model="lastname" required>
                 <span id="errorName"></span>
             </p>
             <p>

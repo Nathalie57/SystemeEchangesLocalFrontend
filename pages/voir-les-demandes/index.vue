@@ -20,8 +20,8 @@
                                     <td><router-link tag="a" :to="{ name:'voir-les-demandes-demande-id', params: { id:demand.id }}" exact>{{ demand.title }}</router-link></td>
                                     <td>{{ demand.description | summary }}</td>
                                     <td><router-link :to="{ name:'category-id', params: { id:demand.category.id }}" tag="a">{{ demand.category.title }}</router-link></td>
-                                    <td>{{ demand.expirationDate | dateFormat }}</td>
-                                    <td><router-link tag="a" :to="{ name:'member-id', params: { id:demand.user.id }}" exact>{{ demand.user.firstname | firstLetter }} {{ demand.user.lastname | firstletter }}</router-link></td>
+                                    <td>{{ demand.expirationDate | expirationDate | dateFormat  }}</td>
+                                    <td><router-link tag="a" :to="{ name:'member-id', params: { id:demand.user.id }}" exact>{{ demand.user.firstname | firstLetter }} {{ demand.user.lastname | firstLetter }}</router-link></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -62,8 +62,50 @@
 </template>
 
 <script> 
-
-import demandsWithUserQuery from '~/apollo/queries/demand/demandsWithUser'
+import gql from 'graphql-tag'
+export default {
+    layout: 'withCategories',
+    data() {
+        return {
+            demand: Object,
+            login:true,
+        }
+    },
+    async asyncData({ app, redirect }) {
+       // let date: date.now()
+        const result = await app.apolloProvider.defaultClient.query({
+        query: gql`
+            query DemandsWithUser($date:DateTime) {  
+                demands(sort:"expirationDate:asc", where:{state:0, expirationDate_gt:$date}) {
+                    id
+                    title
+                    description
+                    demandDate
+                    expirationDate
+                    user{
+                        id
+                        username
+                        lastname
+                        firstname
+                    }
+                    category{
+                        id
+                        title
+                    }
+                }
+            }
+        `,
+        context: {
+            headers:{
+                Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTg5NDQ3MzgyLCJleHAiOjE1OTIwMzkzODJ9.OH6704a_Yv7zcvhYYlGfZ_QSEXd14cgLew7ONCWUeUk'
+            }
+        },
+    })
+    //redirect('/' + result.data.characters[0].id)
+    return result.data
+  }
+}
+/*import demandsWithUserQuery from '~/apollo/queries/demand/demandsWithUser'
 import demandQuery from '~/apollo/queries/demand/demand'
 
 export default {  
@@ -72,7 +114,7 @@ export default {
         return {
             demand: Object,
             login:true,
-            date: new Date()
+            date:''
         }
     },
     apollo: {
@@ -81,14 +123,25 @@ export default {
             query: demandsWithUserQuery
         }
     },
-    demand: {
+        demand: {
             prefetch: true,
             query: demandQuery,
             variables () {
                 return { id: this.$route.params.id }
             }
+        },
+    computed: {
+        filteredDate() {
+            let date = this.demand.expirationDate
+            let today = new Date()
+   
+            return this.demands.filter(demand => {
+                if(date>today) return demands
+            })
         }
+    }
 }
+
 
 /*import axios from 'axios';
 export default { 

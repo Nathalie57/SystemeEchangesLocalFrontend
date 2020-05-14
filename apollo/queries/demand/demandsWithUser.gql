@@ -1,5 +1,5 @@
-query DemandsWithUser {  
-  demands(sort:"expirationDate:asc", where:{state:0}) {
+query DemandsWithUser($date:DateTime) {  
+  demands(sort:"expirationDate:asc", where:{state:0, expirationDate_gt:$date}) {
     id
     title
     description

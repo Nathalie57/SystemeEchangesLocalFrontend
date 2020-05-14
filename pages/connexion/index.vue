@@ -42,15 +42,13 @@ methods: {
       axios.post('http://localhost:1337/auth/local',{
           identifier: this.email,
           password: this.password,
-          id: this.id
-          /*headers: {
-              'Authorization': this.token
-          }*/
       })
       
         .then((Response) => {
-          let id = 2;
-          this.$router.push({name: 'member-id-echanges', params: {id}}),
+          
+        sessionStorage.setItem("id", 2)
+        sessionStorage.setItem("token", 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTg5NDYzMzc1LCJleHAiOjE1OTIwNTUzNzV9.9S0ZdfXh3JFaYYGt0gaHiL6fQLWN5FK-r_2A9i4CPrw')
+        //  this.$router.push({name: 'member-id-echanges', params: {id:response.data.user.id}}),
             console.log('Well done!');
             console.log('User profile', response.data.user);
             console.log('User token', response.data.jwt);
@@ -62,3 +60,4 @@ methods: {
   }
 }
 </script>
+
