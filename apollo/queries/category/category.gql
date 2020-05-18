@@ -1,8 +1,8 @@
-query Category($id:ID!){  
+query Category($id:ID!, $date:DateTime){  
   category(id: $id) {
     id
     title
-    demands(sort:"expirationDate:desc", where:{state:0}){
+    demands(sort:"expirationDate:desc", where:{state:0, expirationDate_gt:$date }){
       id
       title
       description

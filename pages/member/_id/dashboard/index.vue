@@ -67,7 +67,54 @@
                 <div v-else>
                     <h3>Vous n'avez pas d'offre en cours.</h3>
                 </div>
-
+                    <h3>Vos demandes expirées</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Demande</th>
+                                <th>Description</th>
+                                <th>Date d'expiration de la demande</th>
+                                <th>Valider l'échange</th>
+                                <th>Renouveler la demande</th>
+                                <th>Supprimer la demande</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="demand in demands" v-if="demand.state==0">
+                                <td>{{ demand.title }}</td>
+                                <td>{{ demand.description | summary  }}</td>
+                                <td>{{ demand.expirationDate | dateFormat }}</td>
+                                <td><router-link tag="a" :to="{ name:'member-id-validation-demande-title', params: { id:user.id, title:demand.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
+                                <td><router-link tag="a" :to="{ name:'member-id-renouveler-demande-title', params: { id:user.id, title:demand.id }}" exact><button class="see-more-button">Renouveler</button></router-link></td>
+                                <td><router-link tag="a" :to="{ name:'member-id-supprimer-demande-title', params: { id:user.id, title:demand.id }}" exact><button class="see-more-button">Supprimer</button></router-link></td>
+                            </tr>
+                        </tbody>
+                    </table>
+               
+                
+                    <h3>Vos offres expirées</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Offre</th>
+                                <th>Description</th>
+                                <th>Date d'expiration de l'offre</th>
+                                <th>Valider l'échange</th>
+                                <th>Renouveler l'offre</th>
+                                <th>Supprimer l'offre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="offer in offers"  v-if="offer.state==0">
+                                <td>{{ offer.title }}</td>
+                                <td>{{ offer.description | summary }}</td>
+                                <td>{{ offer.expirationDate | dateFormat }}</td>
+                                <td><router-link tag="a" :to="{ name:'member-id-validation-offre-title', params: { id:user.id, title:offer.id }}" exact><button class="see-more-button">Valider</button></router-link></td>
+                                <td><router-link tag="a" :to="{ name:'member-id-renouveler-offre-title', params: { id:user.id, title:offer.id }}" exact><button class="see-more-button">Renouveler</button></router-link></td>
+                                <td><router-link tag="a" :to="{ name:'member-id-supprimer-offre-title', params: { id:user.id, title:offer.id }}" exact><button class="see-more-button">Supprimer</button></router-link></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 
             </div>
         </client-only>
@@ -77,27 +124,64 @@
 
 <script>  
 import userQuery from '~/apollo/queries/user/user'
-import demandQuery from '~/apollo/queries/demand/demand'
-import offerQuery from '~/apollo/queries/offer/offer'
+import userWithExpirationQuery from '~/apollo/queries/user/userWithExpiration'
+import demandsExpiredQuery from '~/apollo/queries/demand/demandsExpired'
+import offersExpiredQuery from '~/apollo/queries/offer/offersExpired'
 
 export default {  
     layout: 'withCategories',
+    
     data() {
         return {
             user: Object,
-            demand: Object,
-            login: true
-        }
+            userWithExpiration: Object,
+            offersExpired: [],
+            demandsExpired: [],
+            query: ''
+        }        
     },
     apollo: {
         user: {
             prefetch: true,
             query: userQuery,
             variables () {
-                return { id: this.$route.params.id }
+                return { 
+                    id: this.$route.params.id, 
+                    date: Date.now() 
+                }
+            }
+        },
+        /*userWithExpiration: {
+            prefetch: true,
+            query: userWithExpirationQuery,
+            variables () {
+                return { 
+                    id: this.$route.params.id, 
+                    date: Date.now() 
+                }
+            }
+        }*/
+        demands: {
+            prefetch: true,
+            query: demandsExpiredQuery,
+            variables () {
+                return {
+                    user: this.$route.params.id,
+                    date: Date.now()
+                }
+            }
+        },
+        offers: {
+            prefetch: true,
+            query: offersExpiredQuery,
+            variables () {
+                return {
+                    user: this.$route.params.id,
+                    date: Date.now()
+                }
             }
         }
-    },
+    }
 }
 </script>  
 

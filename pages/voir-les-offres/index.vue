@@ -65,53 +65,7 @@
 </template>
 
 <script>  
-import gql from 'graphql-tag'
-export default {
-    layout: 'withCategories',
-    data() {
-        return {
-            offer: Object,
-            login:true,
-        }
-    },
-    async asyncData({ app, redirect }) {
-        let date = Date.now()
-        const result = await app.apolloProvider.defaultClient.query({
-        query: gql`
-            query OffersWithUser($date:DateTime) {  
-                offers(sort:"expirationDate:asc", where:{state:0, expirationDate_gt:$date}) {
-                    id
-                    title
-                    description
-                    offerDate
-                    expirationDate
-                    user{
-                        id
-                        username
-                        lastname
-                        firstname
-                    }
-                    category{
-                        id
-                        title
-                    }
-                }
-            }
-        `,
-        variables : {
-            date: date
-        },
-        context: {
-            headers:{
-                //Authorization: Bearer [eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTg5NDQ3MzgyLCJleHAiOjE1OTIwMzkzODJ9.OH6704a_Yv7zcvhYYlGfZ_QSEXd14cgLew7ONCWUeUk]
-            }
-        },
-    })
-    //redirect('/' + result.data.characters[0].id)
-    return result.data
-  }
-}
-/*import offersWithUserQuery from '~/apollo/queries/offer/offersWithUser'
+import offersWithUserQuery from '~/apollo/queries/offer/offersWithUser'
 
 export default {  
     layout: 'withCategories',
@@ -125,9 +79,11 @@ export default {
         offers: {
             prefetch: true,
             query: offersWithUserQuery,
+            variables(){
+                return { date: Date.now() }
             }
         }
     },
-}*/
+}
 
 </script>  

@@ -5,7 +5,7 @@
             <div class="table-container" v-if="user.demands && user.offers">
             <h2>{{ user.username | firstLetter }}, membre depuis le {{ user.registrationDate | dateFormat }}</h2>
                 <div v-if="user.demands.length>0">
-                    <h3>Ses demandes</h3>
+                    <h3>Ses demandes en cours</h3>
                     <table>
                         <thead>
                             <tr>
@@ -16,7 +16,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="demand in user.demands">
+                            <tr v-for="demand in user.demands" v-if="demand.state==0">
                                 <td><router-link tag="a" :to="{ name:'voir-les-demandes-demande-id', params: { id:demand.id }}" exact>{{ demand.title }}</router-link></td>
                                 <td>{{ demand.description | summary }}</td>
                                 <td>{{ demand.expirationDate | dateFormat }}</td>
@@ -29,7 +29,7 @@
                     <h3>{{ user.username | firstLetter }} n'a pas de demande en cours.</h3>
                 </div>
                 <div v-if="user.offers.length>0">
-                    <h3>Ses offres</h3>
+                    <h3>Ses offres en cours</h3>
                     <table>
                         <thead>
                             <tr>
@@ -40,7 +40,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="offer in user.offers">
+                            <tr v-for="offer in user.offers"  v-if="offer.state==0">
                                 <td>{{ offer.title }}</td>
                                 <td>{{ offer.description | summary }}</td>
                                 <td>{{ offer.expirationDate | dateFormat }}</td>
@@ -80,7 +80,7 @@ export default {
             prefetch: true,
             query: userQuery,
             variables () {
-                return { id: this.$route.params.id }
+                return { id: this.$route.params.id, date: Date.now() }
             }
         }
     },

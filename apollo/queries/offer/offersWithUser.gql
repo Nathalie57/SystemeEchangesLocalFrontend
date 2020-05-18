@@ -1,5 +1,5 @@
-query OffersWithUser {  
-  offers(sort:"expirationDate:asc", where:{state:0, expirationDate_gt:$date}) {
+query OffersWithUser($date:DateTime) {  
+  offers(sort:"expirationDate:asc", where:{state:0, expirationDate_gte:$date}) {
     id
     title
     description

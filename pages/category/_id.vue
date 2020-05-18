@@ -130,13 +130,8 @@ export default {
             prefetch: true,
             query: categoryQuery,
             variables () {
-                return { id: this.$route.params.id }
+                return { id: this.$route.params.id, date: Date.now() }
             }
-        }
-    },
-    computed:{
-        categoryTitle(){
-            return this.category.find(category => category.title === this.title)
         }
     },
 }

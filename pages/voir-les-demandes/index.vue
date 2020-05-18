@@ -62,7 +62,42 @@
 </template>
 
 <script> 
-import gql from 'graphql-tag'
+import demandsWithUserQuery from '~/apollo/queries/demand/demandsWithUser'
+import demandQuery from '~/apollo/queries/demand/demand'
+
+export default {  
+    layout: 'withCategories',
+    data() {
+        return {
+            demand: Object,
+            login:true,
+            date:''
+        }
+    },
+    apollo: {
+        demands: {
+            prefetch: true,
+            query: demandsWithUserQuery,
+            variables(){
+                return { date: Date.now() }
+            }
+        }
+    },
+      /*  demand: {
+            prefetch: true,
+            query: demandQuery,
+            variables () {
+                return { id: this.$route.params.id }
+            }
+        },*/
+    context: {
+            headers:{
+                //Authorization: Bearer [eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTg5NDQ3MzgyLCJleHAiOjE1OTIwMzkzODJ9.OH6704a_Yv7zcvhYYlGfZ_QSEXd14cgLew7ONCWUeUk]
+            }
+        },
+}
+
+/*import gql from 'graphql-tag'
 export default {
     layout: 'withCategories',
     data() {
@@ -107,42 +142,6 @@ export default {
     //redirect('/' + result.data.characters[0].id)
     return result.data
   }
-}
-/*import demandsWithUserQuery from '~/apollo/queries/demand/demandsWithUser'
-import demandQuery from '~/apollo/queries/demand/demand'
-
-export default {  
-    layout: 'withCategories',
-    data() {
-        return {
-            demand: Object,
-            login:true,
-            date:''
-        }
-    },
-    apollo: {
-        demands: {
-            prefetch: true,
-            query: demandsWithUserQuery
-        }
-    },
-        demand: {
-            prefetch: true,
-            query: demandQuery,
-            variables () {
-                return { id: this.$route.params.id }
-            }
-        },
-    computed: {
-        filteredDate() {
-            let date = this.demand.expirationDate
-            let today = new Date()
-   
-            return this.demands.filter(demand => {
-                if(date>today) return demands
-            })
-        }
-    }
 }
 
 

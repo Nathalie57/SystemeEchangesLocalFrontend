@@ -1,0 +1,17 @@
+query Demands($user:ID, $date:DateTime){
+  demands(where:{user:$user, expirationDate_lt:$date}, limit:20, sort:"expirationDate:asc"){
+    id
+    title
+    description
+    expirationDate
+    user{
+      id
+      username
+    }
+    amount
+    userExchange{
+      id
+    	username
+    }
+  }
+}
