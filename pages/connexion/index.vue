@@ -44,18 +44,21 @@ methods: {
           password: this.password,
       })
       
-        .then((Response) => {
+      .then((response) => {
+        
+        sessionStorage.setItem("sel_id", response.data.user.id);
+        sessionStorage.setItem("sel_token", response.data.jwt);
+        /*console.clear();
+        console.log("kjlkjlkj", response.data.user.id);*/
+        this.$router.push({name: 'member-id-echanges', params: {id:response.data.user.id}});
           
-        sessionStorage.setItem("id", 2)
-        sessionStorage.setItem("token", 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTg5NDYzMzc1LCJleHAiOjE1OTIwNTUzNzV9.9S0ZdfXh3JFaYYGt0gaHiL6fQLWN5FK-r_2A9i4CPrw')
-        //  this.$router.push({name: 'member-id-echanges', params: {id:response.data.user.id}}),
-            console.log('Well done!');
-            console.log('User profile', response.data.user);
-            console.log('User token', response.data.jwt);
-        })
-        .catch((err) => {
-          this.errors.push(err)
-        })
+        /*console.log('Well done!');
+          console.log('User profile', response);
+          console.log('User token', response.data.jwt);*/
+      })
+      .catch((err) => {
+        this.errors.push(err)
+      })
     }
   }
 }

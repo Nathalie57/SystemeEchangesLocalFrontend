@@ -99,10 +99,11 @@ methods: {
             
            .then(response => {
                 // Handle success.
-                this.$router.push({path: '/connexion'}),
+               
                 console.log('Well done!');
                 console.log('User profile', response.data.user);
-                console.log('User token', response.data.jwt);
+                console.log('User token', response);
+                 this.$router.push({path: '/connexion'})
             })
             .catch(error => {
                 // Handle error.
