@@ -1,7 +1,7 @@
 <template>   
     <div>
         <client-only>
-        <div v-if="login">
+        <div v-if="username">
             <div class="table-container" v-if="offers">
                 <div v-if="offers.length>0">
                   <h2>Les offres en cours</h2>
@@ -46,7 +46,7 @@
                           </thead>
                           <tbody>
                               <tr v-for="offer in offers">
-                                  <td><router-link tag="a" to="/" exact>{{ offer.title }}</router-link></td>
+                                  <td><router-link tag="a" :to="{ name:'voir-les-offres-offre-id', params: { id:offer.id }}" exact>{{ offer.title }}</router-link></td>
                                   <td>{{ offer.description | summary }}</td>
                                   <td><router-link tag="a" :to="{ name: 'category-id', params: {id:offer.category.id}}" exact>{{ offer.category.title }}</router-link></td>
                                   <td>{{ offer.expirationDate | dateFormat }}</td>
@@ -66,6 +66,7 @@
 
 <script>  
 import offersWithUserQuery from '~/apollo/queries/offer/offersWithUser'
+import { mapMutations } from 'vuex'
 
 export default {  
     layout: 'withCategories',
@@ -84,6 +85,16 @@ export default {
             }
         }
     },
+    computed: {
+        username() {
+            return this.$store.getters['auth/username']
+        }
+    },
+    methods: {
+        ...mapMutations({
+            logout: 'auth/logout'
+        })
+    }
 }
 
 </script>  

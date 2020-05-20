@@ -1,34 +1,37 @@
 <template>
- <div class="table-container">
-    <ul class="member-menu">
-        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:user.id }}" exact>Mon profil</router-link></li>
-        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:user.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
-        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:user.id }}" exact>Gérer mes échanges</router-link></li>
-        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:user.id }}" exact>Déposer une offre</router-link></li>
-        <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:user.id }}" exact>Déposer une demande</router-link></li>
-        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:user.id }}" exact>Liste des membres</router-link></li>
-    </ul>
-    <div class="form-container">
-        <h2>Détails de l'échange</h2>
-        <form method="POST" @submit.prevent="offerValidation">
-            <p>Titre de l'offre : {{ offer.title }}</p>
-            <p>Description de l'offre : {{ offer.description }}</p>
-             <p>
-                <label>Sélectionnez la personne concernée par l'échange</label>                
-                <select v-model="userExchange">
-                    <option v-for="user in users" :value="user.id" required>
-                    {{ user.firstname }} {{ user.lastname }}
-                    </option>
-                </select>
-            </p>
-            <p>
-                <label>Indiquez le montant en grains de sel de l'échange : </label>
-                <input type="number" v-model="amount" required>
-            </p>
-            <button type="submit">Valider</button>
-        </form>  
-      </div>
-  </div>
+    <div class="table-container" v-if="username && user &&id==user.id">
+        <ul class="member-menu">
+            <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:user.id }}" exact>Mon profil</router-link></li>
+            <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:user.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
+            <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:user.id }}" exact>Gérer mes échanges</router-link></li>
+            <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:user.id }}" exact>Déposer une offre</router-link></li>
+            <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:user.id }}" exact>Déposer une demande</router-link></li>
+            <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:user.id }}" exact>Liste des membres</router-link></li>
+        </ul>
+        <div class="form-container">
+            <h2>Détails de l'échange</h2>
+            <form method="POST" @submit.prevent="offerValidation">
+                <p>Titre de l'offre : {{ offer.title }}</p>
+                <p>Description de l'offre : {{ offer.description }}</p>
+                <p>
+                    <label>Sélectionnez la personne concernée par l'échange</label>                
+                    <select v-model="userExchange">
+                        <option v-for="user in users" :value="user.id" required>
+                        {{ user.firstname }} {{ user.lastname }}
+                        </option>
+                    </select>
+                </p>
+                <p>
+                    <label>Indiquez le montant en grains de sel de l'échange : </label>
+                    <input type="number" v-model="amount" required>
+                </p>
+                <button type="submit">Valider</button>
+            </form>  
+        </div>
+    </div>
+    <div v-else class="table-container">
+        <p>Vous n'êtes pas autorisé à voir cette page. Veuillez vous connecter.</p>
+    </div>
 </template>
 
 
@@ -38,6 +41,7 @@ import usersQuery from '~/apollo/queries/user/users'
 import userQuery from '~/apollo/queries/user/user'
 import offerQuery from '~/apollo/queries/offer/offer'
 import gql from 'graphql-tag'
+import { mapMutations } from 'vuex'
 
 export default {  
     layout: 'withCategories',
@@ -47,7 +51,9 @@ export default {
             title: '',
             description: '',
             category: '',
-            expirationDate: ''           
+            expirationDate: '',
+            userExchange: '',
+            amount: ''  
         }
     },
     
@@ -109,13 +115,24 @@ export default {
             })
             .then((data) => {
            // let id =  this.$route.params.id;
-          this.$router.push({name: 'member-id-echanges', params: {id:this.$route.params.id}}),
+            this.$router.push({name: 'member-id-echanges', params: {id:this.$route.params.id}}),
             event.target.reset()
             })
             .catch((e) => {
             this.errors = e.graphQLErrors
             })
+        },
+        ...mapMutations({
+            logout: 'auth/logout'
+        })
+    },
+    computed: {
+        username() {
+            return this.$store.getters['auth/username']
+        },
+        id() {
+            return this.$store.getters['auth/id']
         }
-    }
+    },
 }
 </script>

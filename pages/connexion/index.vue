@@ -1,66 +1,65 @@
-<template>
+<template>  
     <div>
-    <div class="table-container">
-      <div class="form-container">
-        <form @submit.prevent="login">
-            <p>
-              <label>Votre identifiant</label>
-              <input type="text" v-model="email" required>
-            </p>
-            </p>
-              <label>Votre mot de passe</label>
-              <input type="password" v-model="password" required>
-            </p>
-    
-           
-            <button type="submit">Submit</button>
-        </form>
-      
-      </div>
-    </div>
-    </div>
+        <div class="table-container" v-if="!username">
+            <form @submit.stop.prevent="handleSubmit">
+                <p>
+                    <label>Votre identifiant</label>
+                    <input type="text" v-model="email" required>
+                </p>
+                </p>
+                    <label>Votre mot de passe</label>
+                    <input type="password" v-model="password" required>
+                </p>    
+                          
+                <button :disabled="loading" type="submit">Connexion</button>
+                <p>
+                    Pas encore de compte ?
+                    <router-link :to="{ name: 'inscription'}">S'inscrire </router-link>
+                </p>
+            </form>
+        </div>
+        <div v-else class="table-container">
+            <p>Vous êtes déjà connecté</p>
+        </div>    
+    </div>  
 </template>
 
-<script>
-    import axios from 'axios';
+<script>  
+import { mapMutations } from 'vuex'  
+import strapi from '~/utils/Strapi'
 
-// Request API.
-// Add your own code here to customize or restrict how the public can register new users.
-export default { 
-    data() {
+export default {  
+  data() {
     return {
-      email:'',
-      password:'',
-      token : '',
-      id: '',
-      errors: []
+      email: '',
+      password: '',
+      loading: false
     }
   },
-
-methods: {
-    login() {
-      axios.post('http://localhost:1337/auth/local',{
-          identifier: this.email,
-          password: this.password,
-      })
-      
-      .then((response) => {
-        
-        sessionStorage.setItem("sel_id", response.data.user.id);
-        sessionStorage.setItem("sel_token", response.data.jwt);
-        /*console.clear();
-        console.log("kjlkjlkj", response.data.user.id);*/
-        this.$router.push({name: 'member-id-echanges', params: {id:response.data.user.id}});
-          
-        /*console.log('Well done!');
-          console.log('User profile', response);
-          console.log('User token', response.data.jwt);*/
-      })
-      .catch((err) => {
-        this.errors.push(err)
-      })
-    }
-  }
+  methods: {
+    async handleSubmit() {
+      try {
+        this.loading = true
+        const response = await strapi.login(
+          this.email,
+          this.password
+        )
+        this.loading = false
+        this.setUser(response.user)
+        this.$router.go(-1)
+      } catch (err) {
+        this.loading = false
+        alert(err.message || 'An error occurred.')
+      }
+    },
+    ...mapMutations({
+      setUser: 'auth/setUser'
+    })
+  },
+  computed: {
+        username() {
+            return this.$store.getters['auth/username']
+        }
+    },
 }
-</script>
-
+</script>  

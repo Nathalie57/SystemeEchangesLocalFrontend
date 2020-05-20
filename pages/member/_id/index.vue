@@ -1,7 +1,7 @@
 <template>   
     <div>
         <client-only>
-        <div v-if="login">
+        <div v-if="username">
             <div class="table-container" v-if="user.demands && user.offers">
             <h2>{{ user.username | firstLetter }}, membre depuis le {{ user.registrationDate | dateFormat }}</h2>
                 <div v-if="user.demands.length>0">
@@ -52,13 +52,11 @@
                 <div v-else>
                     <h3>{{ user.username | firstLetter }} n'a pas d'offre en cours.</h3>
                 </div>
-
-                </div>
             </div>
-
-            <div v-else class="table-container">
-                <p><router-link tag="a" to="/connexion" exact>Connectez-vous</router-link> pour voir les offres et les demandes des membres</p>
-            </div>
+        </div>
+        <div v-else class="table-container">
+            <p><router-link tag="a" to="/connexion" exact>Connectez-vous</router-link> ou <router-link tag="a" to="/inscription" exact>inscrivez-vous</router-link> pour avoir accès à cette page !</p>
+        </div>
         </client-only>
     </div>
     

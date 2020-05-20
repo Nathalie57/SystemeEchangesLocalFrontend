@@ -1,5 +1,5 @@
 <template>
-    <div class="table-container">
+    <div class="table-container" v-if="username && user && id==user.id">
         <ul class="member-menu">
             <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:user.id }}" exact>Mon profil</router-link></li>
             <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:user.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
@@ -34,8 +34,11 @@
             </p>
             <button type="submit">Renouveler</button>
         </form>  
-      </div>
-  </div>
+        </div>
+    </div>
+    <div v-else class="table-container">
+        <p>Vous n'avez pas accès à cette page.</p>
+    </div>
 </template>
 
 
@@ -44,6 +47,7 @@ import categoriesQuery from '~/apollo/queries/category/categories'
 import userQuery from '~/apollo/queries/user/user'
 import offerQuery from '~/apollo/queries/offer/offer'
 import gql from 'graphql-tag'
+import { mapMutations } from 'vuex'
 
 export default {  
     layout: 'withCategories',
@@ -131,7 +135,18 @@ export default {
             .catch((e) => {
             this.errors = e.graphQLErrors
             })
+        },
+        ...mapMutations({
+            logout: 'auth/logout'
+        })
+    },
+    computed: {
+        username() {
+            return this.$store.getters['auth/username']
+        },
+        id() {
+            return this.$store.getters['auth/id']
         }
-    }
+    },
 }
 </script>

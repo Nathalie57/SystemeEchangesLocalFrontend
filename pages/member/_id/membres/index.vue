@@ -1,7 +1,7 @@
 <template>
     <div>
         <client-only>
-        <div v-if="login">
+        <div v-if="username">
             <div class="table-container">
                 <ul class="member-menu">
                     <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:user.id }}" exact>Mon profil</router-link></li>
@@ -34,18 +34,17 @@
                 </table>
             </div>
         </div>
-
         <div v-else class="table-container">
-            <p><router-link tag="a" to="/connexion" exact>Connectez-vous</router-link> pour voir les offres et les demandes des membres</p>
+            <p>Vous n'êtes pas autorisé à voir cette page. Veuillez vous connecter.</p>
         </div>
         </client-only>
-    </div>
-    
+    </div>    
 </template>
 
 <script>  
 import usersQuery from '~/apollo/queries/user/users'
 import userQuery from '~/apollo/queries/user/user'
+import { mapMutations } from 'vuex'
 
 export default {  
     layout: 'withCategories',
@@ -67,6 +66,16 @@ export default {
                 return { id: this.$route.params.id }
             }
         }
+    },
+    computed: {
+        username() {
+            return this.$store.getters['auth/username']
+        }
+    },
+    methods: {
+        ...mapMutations({
+            logout: 'auth/logout'
+        })
     }
 }
 </script>

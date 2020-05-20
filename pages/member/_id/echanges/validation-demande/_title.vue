@@ -1,24 +1,27 @@
 <template>
- <div class="table-container">
-    <ul class="member-menu">
-        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:user.id }}" exact>Mon profil</router-link></li>
-        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:user.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
-        <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:user.id }}" exact>Gérer mes échanges</router-link></li>
-        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:user.id }}" exact>Déposer une offre</router-link></li>
-        <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:user.id }}" exact>Déposer une demande</router-link></li>
-        <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:user.id }}" exact>Liste des membres</router-link></li>
-    </ul>
-    <div class="form-container">
-        <h2>Détails de l'échange</h2>
-        <form method="POST" @submit.prevent="demandValidation">
-            <p>Titre de la demande : {{ demand.title }}</p>
-            <p>Description de la demande : {{ demand.description }}</p>
-            <p v-if="demand.user">Personne concernée par l'échange : {{ demand.user.firstname | firstLetter }} {{ demand.user.lastname | firstLetter }}</p>
-            <p>Montant de l'échange : + {{ demand.amount }} grains de sel</p>
-            <button type="submit">Valider</button>
-        </form>  
-      </div>
-  </div>
+    <div class="table-container" v-if="username && user && id==user.id">
+        <ul class="member-menu">
+            <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:user.id }}" exact>Mon profil</router-link></li>
+            <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:user.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
+            <li class="blue-text"><router-link tag="a" :to="{name:'member-id-echanges', params: { id:user.id }}" exact>Gérer mes échanges</router-link></li>
+            <li class="orange-text"><router-link tag="a" :to="{name:'member-id-creer-offre', params: { id:user.id }}" exact>Déposer une offre</router-link></li>
+            <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:user.id }}" exact>Déposer une demande</router-link></li>
+            <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:user.id }}" exact>Liste des membres</router-link></li>
+        </ul>
+        <div class="form-container">
+            <h2>Détails de l'échange</h2>
+            <form method="POST" @submit.prevent="demandValidation">
+                <p>Titre de la demande : {{ demand.title }}</p>
+                <p>Description de la demande : {{ demand.description }}</p>
+                <p v-if="demand.user">Personne concernée par l'échange : {{ demand.user.firstname | firstLetter }} {{ demand.user.lastname | firstLetter }}</p>
+                <p>Montant de l'échange : + {{ demand.amount }} grains de sel</p>
+                <button type="submit">Valider</button>
+            </form>  
+        </div>
+        </div>
+    <div v-else class="table-container">
+        <p>Vous n'êtes pas autorisé à voir cette page. Veuillez vous connecter.</p>
+    </div>
 </template>
 
 
@@ -28,6 +31,7 @@ import usersQuery from '~/apollo/queries/user/users'
 import userQuery from '~/apollo/queries/user/user'
 import demandQuery from '~/apollo/queries/demand/demand'
 import gql from 'graphql-tag'
+import { mapMutations } from 'vuex'
 
 export default {  
     layout: 'withCategories',
@@ -156,7 +160,17 @@ export default {
             this.errors = e.graphQLErrors
             })
         },
-        
+        ...mapMutations({
+            logout: 'auth/logout'
+        })
+    },
+    computed: {
+        username() {
+            return this.$store.getters['auth/username']
+        },
+        id() {
+            return this.$store.getters['auth/id']
+        }
     }
 }
 </script>

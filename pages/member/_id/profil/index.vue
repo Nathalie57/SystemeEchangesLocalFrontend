@@ -1,7 +1,7 @@
 <template>   
     <div>
         <client-only>
-            <div class="table-container">
+            <div class="table-container" v-if="username && id==user.id">
                 <ul class="member-menu">
                     <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:user.id }}" exact>Mon profil</router-link></li>
                     <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:user.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
@@ -28,12 +28,16 @@
                     </br>
                 <button>Modifier votre profil</button>
             </div>
+            <div class="table-container" v-else>
+                <p>Vous n'êtes pas autorisé à voir cette page. Veuillez vous connecter.</p>
+            </div>
         </client-only>
     </div>
 </template>
 
 <script>  
 import userQuery from '~/apollo/queries/user/user'
+import { mapMutations } from 'vuex'
 //import axios from 'axios';
 
 export default {  
@@ -53,8 +57,21 @@ export default {
             },
         }
     },
-    
+    computed: {
+        username() {
+            return this.$store.getters['auth/username']
+        },
+        id() {
+            return this.$store.getters['auth/id']
+        }
+    },
+    methods: {
+        ...mapMutations({
+            logout: 'auth/logout'
+        })
+    },
 }
+
 </script>
 
 <style>

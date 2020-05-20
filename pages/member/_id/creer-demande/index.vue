@@ -1,5 +1,5 @@
 <template>
-    <div class="table-container">
+    <div class="table-container" v-if="username && user && id==user.id">
         <ul class="member-menu">
             <li class="orange-text"><router-link tag="a" :to="{name:'member-id-profil', params: { id:user.id }}" exact>Mon profil</router-link></li>
             <li class="blue-text"><router-link tag="a" :to="{name:'member-id-dashboard', params: { id:user.id }}" exact>Gérer mes offres et demandes en cours</router-link></li>
@@ -8,34 +8,37 @@
             <li class="green-text"><router-link tag="a" :to="{name:'member-id-creer-demande', params: { id:user.id }}" exact>Déposer une demande</router-link></li>
             <li class="orange-text"><router-link tag="a" :to="{name:'member-id-membres', params: { id:user.id }}" exact>Liste des membres</router-link></li>
         </ul>
-    <div class="form-container">
-        <h2>Bonjour {{ user.username | firstLetter }} !</h2>
-        <h2>Quelle demande souhaitez-vous déposer ?</h2>
-        <form method="POST" @submit.prevent="newDemand">
-            <p>
-                <label>Titre de la demande (choisissez un titre suffisamment explicite) :</label><br/>
-                <input type="text" v-model="title" required autofocus>
-            </p>
-            <p>
-                <label>Description de la demande (soyez le plus précis possible) :</label><br/>
-                <textarea v-model="description" required></textarea>
-            </p>  
-            <p>
-                <label>Catégorie de la demande</label>                
-                <select v-model="category">
-                    <option v-for="category in categories" :value="category.id">
-                    {{ category.title }}
-                    </option>
-                </select>
-            </p>
-            <p>
-                <label>Date d'expiration de la demande (maximum un mois)</label>
-                <input type="date" v-model="expirationDate" required>
-            </p>
-            <button type="submit">Valider</button>
-        </form>  
-      </div>
-  </div>
+        <div class="form-container">
+            <h2>Bonjour {{ user.username | firstLetter }} !</h2>
+            <h2>Quelle demande souhaitez-vous déposer ?</h2>
+            <form method="POST" @submit.prevent="newDemand">
+                <p>
+                    <label>Titre de la demande (choisissez un titre suffisamment explicite) :</label><br/>
+                    <input type="text" v-model="title" required autofocus>
+                </p>
+                <p>
+                    <label>Description de la demande (soyez le plus précis possible) :</label><br/>
+                    <textarea v-model="description" required></textarea>
+                </p>  
+                <p>
+                    <label>Catégorie de la demande</label>                
+                    <select v-model="category">
+                        <option v-for="category in categories" :value="category.id">
+                        {{ category.title }}
+                        </option>
+                    </select>
+                </p>
+                <p>
+                    <label>Date d'expiration de la demande (maximum un mois)</label>
+                    <input type="date" v-model="expirationDate" required>
+                </p>
+                <button type="submit">Valider</button>
+            </form>  
+        </div>
+    </div>
+    <div v-else class="table-container">
+        <p>Vous n'êtes pas autorisé à voir cette page. Veuillez vous connecter.</p>
+    </div>
 </template>
 
 
@@ -43,6 +46,7 @@
 import categoriesQuery from '~/apollo/queries/category/categories'
 import userQuery from '~/apollo/queries/user/user'
 import gql from 'graphql-tag'
+import { mapMutations } from 'vuex'
 
 export default {  
     layout: 'withCategories',
@@ -124,6 +128,17 @@ export default {
             .catch((e) => {
             this.errors = e.graphQLErrors
             })
+        },
+        ...mapMutations({
+            logout: 'auth/logout'
+        })
+    },
+    computed: {
+        username() {
+            return this.$store.getters['auth/username']
+        },
+        id() {
+            return this.$store.getters['auth/id']
         }
     }
 }

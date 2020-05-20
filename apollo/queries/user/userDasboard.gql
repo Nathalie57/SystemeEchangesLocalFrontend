@@ -1,0 +1,58 @@
+query User($id:ID!, $date:DateTime){
+  user(id:$id){
+    id
+    lastname
+    firstname
+    username
+    birthday
+    phonenumber
+    email
+    address
+    town
+    zip
+    walletAmount
+    registrationDate
+    token{
+        id
+        token
+    }
+    
+    demands(where:{expirationDate_gte:$date, state:0}){
+      id
+      title
+      description
+      expirationDate
+      amount
+      state
+      userExchange{
+        id
+      	username
+        lastname
+        firstname
+      }
+      category{
+        id
+        title
+      }
+    }
+    offers(where:{expirationDate_gt:$date, state:0}){
+      id
+      title
+      description
+      expirationDate
+      amount
+      state
+      userExchange{
+        id
+      	username
+        lastname
+        firstname
+      }
+      category{
+        id
+        title
+      }
+    }
+  }
+}
+      

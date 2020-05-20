@@ -1,6 +1,6 @@
 <template>  
   <div>
-    <div class="form-container">
+    <div class="table-container">
         <h2>Inscrivez-vous au SEL de Mâcon</h2>
         <form method="POST" @submit.prevent="register">
             <p>
@@ -53,11 +53,8 @@
 </template>  
 
 <script>
-
 import gql from 'graphql-tag'
-
 import axios from 'axios';
-
 export default { 
     data() {
     return {
@@ -75,7 +72,6 @@ export default {
       errors: []
     }
   },
-
 methods: {
     register() {
       axios.post('http://localhost:1337/auth/local/register',{
@@ -93,22 +89,7 @@ methods: {
             //jwt: this.jwt
       })
         .then((Response) => {
-            axios.post('http://localhost:1337/tokens',{
-                token: this.jwt
-            })
-            
-           .then(response => {
-                // Handle success.
-               
-                console.log('Well done!');
-                console.log('User profile', response.data.user);
-                console.log('User token', response);
-                 this.$router.push({path: '/connexion'})
-            })
-            .catch(error => {
-                // Handle error.
-                console.log('An error occurred:', error);
-            });
+          this.$router.push({path: '/connexion'})
         })
         .catch((err) => {
           this.errors.push(err)
@@ -117,116 +98,3 @@ methods: {
   }
 }
 </script>
-/*export default{
-  name: 'Register',
-  data() {
-    return {
-      lastname: '',
-      firstname: '',
-      username: '',
-      birthday: '',
-      phonenumber: '',
-      email: '',
-      address: '',
-      town: '',
-      zip: '',
-      password: '',
-     // secondPassword: '',
-      errors: [],
-    }
-  },
-
-  methods: {
-    register (event) {
-      this.$apollo
-        .mutate({
-          mutation: gql`
-            mutation (
-              $lastname: String
-              $firstname: String
-              $username: String!
-              $birthday: DateTime
-              $phonenumber: String
-              $email: String!
-              $address: String
-              $town: String
-              $zip: String
-              $password: String
-            ){
-                createUser(input: {
-                    data: {
-                        lastname: $lastname
-                        firstname: $firstname
-                        username: $username
-                        birthday: $birthday
-                        phonenumber: $phonenumber
-                        email: $email
-                        address: $address
-                        town: $town
-                        zip: $zip
-                        password: $password
-                        confirmed: true
-                    }
-                }) {
-                    user{
-                        id
-                        lastname
-                        firstname
-                        username
-                        birthday
-                        phonenumber
-                        email
-                        address
-                        town
-                        zip
-                        confirmed
-                        
-                    }
-                }
-            }
-          `,
-          variables: {
-            lastname: this.lastname,
-            firstname: this.firstname,
-            username: this.username,
-            birthday: this.birthday,
-            phonenumber: this.phonenumber,
-            email: this.email,
-            address: this.address,
-            town: this.town,
-            zip: this.zip,
-            password: this.password
-          }
-        })
-        .then((data) => {
-          event.target.reset(),
-          this.$router.push({path: '/connexion'}),
-          window.alert('Votre inscription a bien été prise en compte !');
-        })
-        .catch((e) => {
-          if (!this.validPhonenumber(this.phonenumber)) {
-          this.errors.push('Entrez un numéro de téléphone valide');
-          this.errors = e.graphQLErrors;
-      }
-        })
-    },
-    validPhonenumber(phonenumber) {
-      var regex = /[0-9]{10}/;
-      return regex.test(phonenumber);
-    }
-  }
-}*/
-</script>
-
-<style>
-.form-container { 
-	  width: 800px;
-    top:20px;
-    color:rgb(89, 178, 200);
-    position: absolute;
-    margin-top:17%;
-    margin-left:30%;
-    padding:5px; 
-	  text-align:left;	
-	}
-  </style>

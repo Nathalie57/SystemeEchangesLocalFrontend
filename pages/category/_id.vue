@@ -1,7 +1,7 @@
 <template>   
     <div>
         <client-only>
-            <div v-if="login">
+            <div v-if="username">
                 <div class="table-container" v-if="category.demands && category.offers">
                 <h2>Catégorie {{ category.title }}</h2>
                     <div v-if="category.demands.length>0">
@@ -20,7 +20,7 @@
                                     <td><router-link tag="a" :to="{ name:'voir-les-demandes-demande-id', params: { id:demand.id }}" exact>{{ demand.title }}</router-link></td>
                                     <td>{{ demand.description | summary }}</td>
                                     <td>{{ demand.expirationDate | dateFormat }}</td>
-                                    <td><router-link tag="a" :to="{ name:'member-id', params: { id:demand.user.id }}" exact>{{ demand.user.firstname | firstLetter }} {{ demand.user.lastname | firstletter }}</router-link></td>
+                                    <td><router-link tag="a" :to="{ name:'member-id', params: { id:demand.user.id }}" exact>{{ demand.user.firstname | firstLetter }} {{ demand.user.lastname | firstLetter }}</router-link></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -45,7 +45,7 @@
                                 <td><router-link tag="a" :to="{ name:'voir-les-offres-offre-id', params: { id:offer.id }}" exact>{{ offer.title }}</router-link></td>
                                 <td>{{ offer.description | summary }}</td>
                                 <td>{{ offer.expirationDate | dateFormat }}</td>
-                                <td><router-link tag="a" :to="{ name:'member-id', params: { id:offer.user.id }}" exact>{{ offer.user.firstname | firstLetter }} {{ offer.user.lastname | firstletter }}</router-link></td>
+                                <td><router-link tag="a" :to="{ name:'member-id', params: { id:offer.user.id }}" exact>{{ offer.user.firstname | firstLetter }} {{ offer.user.lastname | firstLetter }}</router-link></td>
                             </tr>
                         </tbody>
                     </table>
@@ -58,8 +58,7 @@
             <div v-else>
                 <div class="table-container" v-if="category.demands && category.offers">
                 <h2>Catégorie {{ category.title }}</h2>
-                <p>Pour contacter le membre concerné par l'offre ou la demande, <router-link tag="a" to="/connexion" exact>connectez-vous</router-link> ou <router-link tag="a" to="/inscription" exact>inscrivez-vous</router-link> au Sel de Mâcon !
-
+                    <p>Pour déposer une demande ou une offre, ou pour voir le member concerné par une offre ou une demande déjà déposée, <router-link tag="a" to="/connexion" exact>connectez-vous</router-link> ou <router-link tag="a" to="/inscription" exact>inscrivez-vous</router-link> au Sel de Mâcon !</p>
                     <div v-if="category.demands.length>0">
                         <h3>Les demandes</h3>
                         <table>
@@ -81,7 +80,6 @@
                     </div>
                     <div v-else>
                         <h3>Il n'y a pas de demande en cours dans cette catégorie.</h3>
-                        <p>Pour déposer une demande, <router-link tag="a" to="/connexion" exact>connectez-vous</router-link> ou <router-link tag="a" to="/inscription" exact>inscrivez-vous</router-link> au Sel de Mâcon !</p>
                     </div>
 
                     <div v-if="category.offers.length>0">
@@ -105,7 +103,6 @@
                     </div>
                     <div v-else>
                         <h3>Il n'y a pas d'offre en cours dans cette catégorie.</h3>
-                        <p>Pour déposer une offre, <router-link tag="a" to="/connexion" exact>connectez-vous</router-link> ou <router-link tag="a" to="/inscription" exact>inscrivez-vous</router-link> au Sel de Mâcon !</p>
                     </div>                
                 </div>
             
@@ -116,13 +113,13 @@
 
 <script>  
 import categoryQuery from '~/apollo/queries/category/category'
+import { mapMutations } from 'vuex'
 
 export default {  
     layout: 'withCategories',
     data() {
         return {
-            category: Object,  
-            login: true          
+            category: Object,          
         }
     },
     apollo: {
@@ -134,6 +131,16 @@ export default {
             }
         }
     },
+    computed: {
+        username() {
+            return this.$store.getters['auth/username']
+        }
+    },
+    methods: {
+        ...mapMutations({
+            logout: 'auth/logout'
+        })
+    }
 }
 
 </script>  
