@@ -142,7 +142,6 @@
 
 <script>  
 import userQuery from '~/apollo/queries/user/user'
-
 //import demandQuery from '~/apollo/queries/demand/demand'
 //import offerQuery from '~/apollo/queries/offer/offer'
 import demandsInWaitQuery from '~/apollo/queries/demand/demandsInWait'
@@ -155,23 +154,22 @@ export default {
         return {
             user: Object,
             demands: Object,
-            login: true,
         }
     },
     apollo: {
         user: {
-            prefetch: true,
+            fetchPolicy: 'cache-and-network',
             query: userQuery,
             variables () {
                 return { id: this.$route.params.id }
-            }
+            },
         },
         demands: {
-            prefetch: true,
+            fetchPolicy: 'cache-and-network',
             query: demandsInWaitQuery,            
         },
         offers: {
-            prefetch: true,
+            fetchPolicy: 'cache-and-network',
             query: offersInWaitQuery,            
         },
         /*demand: {

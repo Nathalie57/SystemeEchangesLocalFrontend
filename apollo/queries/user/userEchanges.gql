@@ -1,4 +1,4 @@
-query User($id:ID!, $date:DateTime){
+query User($id:ID!){
   user(id:$id){
     id
     lastname
@@ -17,7 +17,7 @@ query User($id:ID!, $date:DateTime){
         token
     }
     
-    demands(where:{expirationDate_gte:$date, state:1}){
+    demands(where:{state:[1, 2]}){
       id
       title
       description
@@ -35,7 +35,7 @@ query User($id:ID!, $date:DateTime){
         title
       }
     }
-    offers(where:{expirationDate_gt:$date, state:1}){
+    offers(where:{state:[1, 2]}){
       id
       title
       description
