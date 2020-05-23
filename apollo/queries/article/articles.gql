@@ -1,0 +1,9 @@
+query Articles{  
+  articles(sort:"published:desc"){
+    id
+    title
+    content
+    author
+    published
+  }
+}
