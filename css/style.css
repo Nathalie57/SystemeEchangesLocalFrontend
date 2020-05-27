@@ -206,15 +206,16 @@
 /*right-side-bar*/
 
 .right-side-bar-container { 
-	width: 250px;
-	top:0px;
+    width: 250px;
+    top:0px;
     background: rgb(89, 178, 200, 0.2);
     color:rgb(89, 178, 200);
     position: relative;
     margin-left: auto;
     margin-right: 5%;
     padding:5px; 
-	text-align:left;	
+    text-align:left;	
+    margin-bottom:300px
 	}
 
 .right-side-bar {

@@ -125,7 +125,7 @@
 
 <script>  
 //import userQuery from '~/apollo/queries/user/user'
-import userDashboardQuery from '~/apollo/queries/user/userDasboard'
+import userDashboardQuery from '~/apollo/queries/user/userDashboard'
 //import userWithExpirationQuery from '~/apollo/queries/user/userWithExpiration'
 import demandsExpiredQuery from '~/apollo/queries/demand/demandsExpired'
 import offersExpiredQuery from '~/apollo/queries/offer/offersExpired'

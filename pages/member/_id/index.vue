@@ -3,7 +3,7 @@
         <client-only>
         <div v-if="username">
             <div class="table-container" v-if="user.demands && user.offers">
-            <h2>{{ user.username | firstLetter }}, membre depuis le {{ user.registrationDate | dateFormat }}</h2>
+            <h2>{{ user.firstname | firstLetter }}, membre depuis le {{ user.registrationDate | dateFormat }}</h2>
                 <div v-if="user.demands.length>0">
                     <h3>Ses demandes en cours</h3>
                     <table>
@@ -26,7 +26,7 @@
                     </table>
                 </div>
                 <div v-else>
-                    <h3>{{ user.username | firstLetter }} n'a pas de demande en cours.</h3>
+                    <h3>{{ user.firstname | firstLetter }} n'a pas de demande en cours.</h3>
                 </div>
                 <div v-if="user.offers.length>0">
                     <h3>Ses offres en cours</h3>
@@ -50,7 +50,7 @@
                     </table>
                 </div>
                 <div v-else>
-                    <h3>{{ user.username | firstLetter }} n'a pas d'offre en cours.</h3>
+                    <h3>{{ user.firstname | firstLetter }} n'a pas d'offre en cours.</h3>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
 </template>
 
 <script>  
-import userQuery from '~/apollo/queries/user/user'
+import userDashboardQuery from '~/apollo/queries/user/userDashboard'
 
 export default {  
     layout: 'withCategories',
@@ -76,11 +76,16 @@ export default {
     apollo: {
         user: {
             prefetch: true,
-            query: userQuery,
+            query: userDashboardQuery,
             variables () {
                 return { id: this.$route.params.id, date: Date.now() }
             }
         }
+    },
+    computed: {
+        username() {
+            return this.$store.getters['auth/username']
+        },
     },
 }
 
