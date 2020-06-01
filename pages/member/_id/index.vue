@@ -4,6 +4,7 @@
         <div v-if="username">
             <div class="table-container" v-if="user.demands && user.offers">
             <h2>{{ user.firstname | firstLetter }}, membre depuis le {{ user.registrationDate | dateFormat }}</h2>
+            <h3>Contact : {{ user.email }}</h3>    
                 <div v-if="user.demands.length>0">
                     <h3>Ses demandes en cours</h3>
                     <table>
@@ -16,7 +17,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="demand in user.demands" v-if="demand.state==0">
+                            <tr v-for="demand in user.demands">
                                 <td><router-link tag="a" :to="{ name:'voir-les-demandes-demande-id', params: { id:demand.id }}" exact>{{ demand.title }}</router-link></td>
                                 <td>{{ demand.description | summary }}</td>
                                 <td>{{ demand.expirationDate | dateFormat }}</td>

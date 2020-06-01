@@ -146,7 +146,7 @@ import userQuery from '~/apollo/queries/user/user'
 //import offerQuery from '~/apollo/queries/offer/offer'
 import demandsInWaitQuery from '~/apollo/queries/demand/demandsInWait'
 import offersInWaitQuery from '~/apollo/queries/offer/offersInWait'
-//import { mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {  
     layout: 'withCategories',
@@ -187,11 +187,11 @@ export default {
             }
         }*/
     },
-    /*methods: {
+    methods: {
         ...mapMutations({
             logout: 'auth/logout'
         })
-    },*/
+    },
     computed: {
         username() {
             return this.$store.getters['auth/username']

@@ -12,10 +12,7 @@ query User($id:ID!, $date:DateTime){
     zip
     walletAmount
     registrationDate
-    token{
-        id
-        token
-    }
+
     
     demands(where:{expirationDate_gte:$date, state:0}){
       id
