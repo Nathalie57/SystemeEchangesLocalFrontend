@@ -9,10 +9,15 @@ L’objectif principal du projet est de créer un site web qui facilitera la ges
 * adhérer/s’inscrire au Sel
 * déposer des offres et des demandes
 * accepter des offres et des demandes en étant mis en contact avec le membre concerné  
+
 Le site devra être très simple et être accessible à tous pour ne pas bloquer les adhérents qui maîtrisent mal l’outil informatique.
 
 #### Périmètre fonctionnel :  
 ##### Backend :  
+* Publier/modifier/effacer des articles  
+* Supprimer des offres et demandes  
+* Bloquer un utilisateur  
+* Supprimer un compte  
 
 ##### Frontend :  
 Pour tous les utilisateurs :
@@ -30,6 +35,7 @@ Pour les utilisateurs connectés :
 * Voir le porte-monnaie
 * Réaliser des transactions avec d’autres membres
 
-
 #### Spécifications techniques :
-
+Frontend : Utilisation du framework nuxtJS  
+Traitement et rendu des données : GraphQL et Apollo
+Backend : Utilisation de l'api Strapi
