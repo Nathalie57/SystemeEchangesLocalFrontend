@@ -37,5 +37,5 @@ Pour les utilisateurs connectés :
 
 #### Spécifications techniques :
 Frontend : Utilisation du framework nuxtJS  
-Traitement et rendu des données : GraphQL et Apollo
+Traitement et rendu des données : GraphQL et Apollo  
 Backend : Utilisation de l'api Strapi
