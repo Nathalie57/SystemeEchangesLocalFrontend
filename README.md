@@ -20,6 +20,7 @@ Pour tous les utilisateurs :
 * Voir les actualités de l’association  
 * S’inscrire au SEL  
 * Contacter l’association  
+
 Pour les utilisateurs connectés :  
 * Lire les offres et les demandes et le membre qui les a publiées
 * Ajouter de nouvelles offres et demandes
