@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@nuxtjs/apollo": "^4.0.0-rc19",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cookieparser": "^0.1.0",
     "graphql-tag": "^2.10.1",
     "js-cookie": "^2.2.1",
